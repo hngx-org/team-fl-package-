@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:authentication/authentication.dart';
 
 import '../example/lib/main.dart';
 
@@ -22,7 +21,7 @@ void main() {
 
     // Replace this with your authentication failure assertions
     expect(find.text('Error: Your_Error_Message'), findsOneWidget);
-    
+
     // For example, you can check if a SnackBar is displayed after a successful signup
     expect(find.byType(SnackBar), findsOneWidget);
   });

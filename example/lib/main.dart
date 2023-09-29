@@ -10,7 +10,10 @@ class Signup extends StatelessWidget {
       body: ElevatedButton(
         onPressed: () {
           auth
-              .signUp('markessien@hng.com.ng', 'Mark Essien', 'Hng@planner1')
+              .signUp(
+            'markessien@hng.com.ng',
+            'Mark Essien',
+          )
               .then((responseData) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -41,7 +44,9 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: ElevatedButton(
         onPressed: () {
-          auth.signIn('markessien@hng.com.ng', 'Hng@planner1').then((responseData) {
+          auth
+              .signIn('markessien@hng.com.ng', 'Hng@planner1')
+              .then((responseData) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Successfully signed in: $responseData'),

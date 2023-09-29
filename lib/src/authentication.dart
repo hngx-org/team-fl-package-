@@ -1,88 +1,122 @@
 import 'dart:convert';
 
+import 'package:authentication/src/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ApiConfig {
-  static const String baseUrl = 'your_api_base_url';
-  static const Map<String, String> headers = {
-    'Content-Type': 'application/json',
-  };
-}
-
-
-class ApiException implements Exception {
-  final String message;
-
-  ApiException(this.message);
-}
-
-Future<T> _handleError<T>(dynamic e) {
-  if (e is ApiException) {
-    throw e;
-  } else {
-    throw ApiException('An error occurred: $e');
-  }
-}
-
-
-class Authentication {
-  Future signUp(String email, String name, String password) async {
+class Authentication implements AuthRepository {
+  @override
+  Future<dynamic> signUp(String email, String password) async {
+    // Implement signup logic here
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/signup'),
-        headers: ApiConfig.headers,
-        body: jsonEncode({'email': email, 'name': name, 'password': password}),
+        Uri.parse('apiUrl/signup'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': email, 'password': password}),
       );
-      final responseData = jsonDecode(response.body);
-      // Return responseData here if needed
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final userId = data['userId'];
+        return userId;
+      } else {
+        final errorData = json.decode(response.body);
+        final errorMessage = errorData['error'];
+        return errorMessage;
+      }
     } catch (e) {
-      throw ApiException('Error signing up: $e');
+      return 'An error occurred: $e';
     }
   }
 
+  @override
   Future<dynamic> signIn(String email, String password) async {
+    // Implement signin logic here
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/login'),
-        headers: ApiConfig.headers,
+        Uri.parse('apiUrl/login'),
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'password': password}),
       );
 
       final responseData = json.decode(response.body);
       return responseData;
     } catch (e) {
-      throw ApiException('Error signing in: $e');
+      print('Error signing UP user/admin>>>>> : $e');
+      return SnackBar(
+          content: Text(
+        'Error: $e',
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          backgroundColor: Colors.red,
+        ),
+      ));
     }
   }
 
+  @override
   Future<dynamic> logout(String email) async {
+    // Implement logout logic here
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/logout'),
-        headers: ApiConfig.headers,
-        body: jsonEncode({'email': email}),
+        Uri.parse('apiUrl/logout'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+        }),
       );
 
       final responseData = json.decode(response.body);
       return responseData;
     } catch (e) {
-      throw ApiException('Error logging out: $e');
+      print('Error signing UP user/admin>>>>> : $e');
+      return SnackBar(
+          content: Text(
+        'Error: $e',
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          backgroundColor: Colors.red,
+        ),
+      ));
     }
   }
 
+  @override
   Future<dynamic> resetPassword(String email) async {
+    // Implement reset password logic here
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/resetPassword'),
-        headers: ApiConfig.headers,
-        body: jsonEncode({'email': email}),
+        Uri.parse('apiUrl/resetPassword'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+        }),
       );
 
       final responseData = json.decode(response.body);
       return responseData;
     } catch (e) {
-      throw ApiException('Error resetting password: $e');
+      print('Error signing UP user/admin>>>>> : $e');
+      return SnackBar(
+          content: Text(
+        'Error: $e',
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          backgroundColor: Colors.red,
+        ),
+      ));
     }
+  }
+
+  @override
+  Future<bool> isSignedIn() {
+    // TODO: implement isSignedIn
+    throw UnimplementedError();
   }
 }
