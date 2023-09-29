@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:authentication/src/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,8 +25,9 @@ Future<T> _handleError<T>(dynamic e) {
   }
 }
 
-class Authentication {
-  Future signUp(String email, String name, String password) async {
+class Authentication implements AuthRepository {
+  @override
+  Future<dynamic> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/signup'),
@@ -82,5 +84,11 @@ class Authentication {
     } catch (e) {
       throw ApiException('Error resetting password: $e');
     }
+  }
+
+  @override
+  Future<bool> isSignedIn() {
+    // TODO: implement isSignedIn
+    throw UnimplementedError();
   }
 }
