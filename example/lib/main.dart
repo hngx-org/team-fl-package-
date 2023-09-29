@@ -10,10 +10,7 @@ class Signup extends StatelessWidget {
       body: ElevatedButton(
         onPressed: () {
           auth
-              .signUp(
-            'markessien@hng.com.ng',
-            'Mark Essien',
-          )
+              .signUp('markessien@hng.com.ng', 'Mark Essien', 'Hng@planner1')
               .then((responseData) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
