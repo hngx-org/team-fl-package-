@@ -2,6 +2,7 @@ import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationForm extends StatefulWidget {
+  late final TextEditingController nameController;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final String successRoutePage;
@@ -9,6 +10,7 @@ class RegistrationForm extends StatefulWidget {
   Color? btnColor;
 
   RegistrationForm({
+    required this.nameController,
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
@@ -21,13 +23,14 @@ class RegistrationForm extends StatefulWidget {
 }
 
 class _RegistrationFormState extends State<RegistrationForm> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        TextField(
+          controller: widget.nameController,
+          decoration: InputDecoration(labelText: 'Name'),
+        ),
         TextField(
           controller: widget.emailController,
           decoration: InputDecoration(labelText: 'Email'),
@@ -48,11 +51,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
           ),
           onPressed: () async {
-            final email = _emailController.text;
-            final password = _passwordController.text;
+            final name = (widget.nameController).text;
+            final email = (widget.emailController).text;
+            final password = (widget.passwordController).text;
             final authRepository =
                 Authentication(); // Initialize your repository
-            final result = await authRepository.signUp(email, password);
+            final result = await authRepository.signUp(email, name, password);
             if (result != null) {
               // Registration failed, display an error message
             } else {
