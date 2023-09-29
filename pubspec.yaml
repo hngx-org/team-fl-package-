@@ -1,5 +1,5 @@
 name: authentication
-description: A new Flutter package project.
+description: An Authentication package.
 version: 0.0.1
 environment:
   sdk: '>=3.1.2 <4.0.0'

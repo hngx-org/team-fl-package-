@@ -10,13 +10,17 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
+## Authentication_HNG
 
 TODO: Put a short description of the package here that helps potential users
 know whether this package might be useful for them.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Signup
+- Login
+- Reset Password
+- Logout
 
 ## Getting started
 
@@ -25,11 +29,44 @@ start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+[example/lib/main.dart](example/lib/main.dart)
 
 ```dart
-const like = 'sample';
+import 'package:authentication/authentication.dart';
+import 'package:flutter/material.dart';
+
+class Signup extends StatelessWidget {
+  final Authentication auth = Authentication();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ElevatedButton(
+        onPressed: () {
+          auth
+              .signUp('test@example.com', 'John Doe', 'password')
+              .then((responseData) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Successfully signed up: $responseData'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }).catchError((e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.toString()),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          });
+        },
+        child: Text('Sign Up'),
+      ),
+    );
+  }
+}
+
 ```
 
 ## Additional information
