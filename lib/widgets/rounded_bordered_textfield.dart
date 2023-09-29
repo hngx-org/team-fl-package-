@@ -5,7 +5,7 @@ class RoundedBorderedTextField extends StatelessWidget {
   final String hintText;
   final TextInputType? keyboardType;
   final bool obscureText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   bool isPass;
   final Widget? icon;
 
