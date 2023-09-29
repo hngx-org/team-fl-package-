@@ -41,7 +41,9 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: ElevatedButton(
         onPressed: () {
-          auth.signIn('markessien@hng.com.ng', 'Hng@planner1').then((responseData) {
+          auth
+              .signIn('markessien@hng.com.ng', 'Hng@planner1')
+              .then((responseData) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Successfully signed in: $responseData'),
