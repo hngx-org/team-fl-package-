@@ -4,18 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final String resetContent;
   final String successRoutePage;
   String btnText;
   Color btnColor;
 
   ResetPasswordForm({
     required this.emailController,
-    required this.passwordController,
     required this.successRoutePage,
     this.btnText = 'Submit', // Provide a default button text
-    this.btnColor =
-        Colors.green, // Allow the button color to be null (optional)
+    this.btnColor = Colors.green,
+    required this.resetContent,
   });
 
   @override
@@ -72,28 +71,28 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                RoundedBorderedTextField(
-                  hintText: "Enter Password",
-                  obscureText: _obscurePassword,
-                  controller: widget.passwordController,
-                  isPass: true,
-                  icon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // RoundedBorderedTextField(
+                //   hintText: "Enter Password",
+                //   obscureText: _obscurePassword,
+                //   controller: widget.passwordController,
+                //   isPass: true,
+                //   icon: IconButton(
+                //     icon: Icon(
+                //       _obscurePassword
+                //           ? Icons.visibility_off
+                //           : Icons.visibility,
+                //       color: Color.fromRGBO(115, 106, 185, 1),
+                //     ),
+                //     onPressed: () {
+                //       setState(() {
+                //         _obscurePassword = !_obscurePassword;
+                //       });
+                //     },
+                //   ),
+                // ),
                 SizedBox(
                   height: 20,
                 ),
