@@ -1,4 +1,5 @@
 import 'package:authentication/authentication.dart';
+import 'package:authentication/ui/forgetPassword.dart';
 import 'package:authentication/widgets/rounded_bordered_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,7 +89,29 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(ResetPasswordForm(
+                        emailController: widget.emailController,
+                        resetContent: '',
+                        successRoutePage: widget.successRoutePage,
+                      ) as String);
+                    },
+                    child: Text(
+                      "Forgot Password",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Nunito',
+                          color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Container(
                   width: double.infinity,

@@ -4,15 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final String resetContent;
+
   final String successRoutePage;
   String btnText;
   Color btnColor;
 
   ResetPasswordForm({
     required this.emailController,
-    required this.passwordController,
     required this.successRoutePage,
+    required this.resetContent,
     this.btnText = 'Submit', // Provide a default button text
     this.btnColor =
         Colors.green, // Allow the button color to be null (optional)
@@ -58,7 +59,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                   height: 10,
                 ),
                 Text(
-                  "Enter your email address and we will send you a link to reset your password.",
+                  widget.resetContent,
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
                       letterSpacing: .5,
@@ -66,34 +67,33 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     ),
                   ),
                 ),
-
                 RoundedBorderedTextField(
                   hintText: "Email Address",
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                RoundedBorderedTextField(
-                  hintText: "Enter Password",
-                  obscureText: _obscurePassword,
-                  controller: widget.passwordController,
-                  isPass: true,
-                  icon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // RoundedBorderedTextField(
+                //   hintText: "Enter Password",
+                //   obscureText: _obscurePassword,
+                //   controller: widget.passwordController,
+                //   isPass: true,
+                //   icon: IconButton(
+                //     icon: Icon(
+                //       _obscurePassword
+                //           ? Icons.visibility_off
+                //           : Icons.visibility,
+                //       color: Color.fromRGBO(115, 106, 185, 1),
+                //     ),
+                //     onPressed: () {
+                //       setState(() {
+                //         _obscurePassword = !_obscurePassword;
+                //       });
+                //     },
+                //   ),
+                // ),
                 SizedBox(
                   height: 20,
                 ),

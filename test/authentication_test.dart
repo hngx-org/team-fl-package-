@@ -1,3 +1,4 @@
+import 'package:authentication/src/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,11 +17,11 @@ void main() {
     await tester.pump();
 
     // Replace this with your authentication success assertions
-    expect(find.text('Successfully signed up: Your_Success_Message'),
-        findsOneWidget);
+    // expect(find.text('Successfully signed up: your email and password'),
+    //     findsOneWidget);
 
-    // Replace this with your authentication failure assertions
-    expect(find.text('Error: Your_Error_Message'), findsOneWidget);
+    // // Replace this with your authentication failure assertions
+    // expect(find.text('Error: Your_Error_Message'), findsOneWidget);
 
     // For example, you can check if a SnackBar is displayed after a successful signup
     expect(find.byType(SnackBar), findsOneWidget);

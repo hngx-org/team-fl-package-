@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import 'package:authentication/src/authentication_repository.dart';
+
 import 'package:http/http.dart' as http;
+
+import 'authentication_repository.dart';
 
 class ApiConfig {
   static const String baseUrl = 'your_api_base_url';

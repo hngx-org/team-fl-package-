@@ -33,6 +33,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
     return Scaffold(
       body: SafeArea(
+        
         child: Padding(
           padding: EdgeInsets.only(
             left: screenWidth * 0.04,
@@ -109,7 +110,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(widget.successRoutePage);
+                      Navigator.of(context).pushNamed(widget.successRoutePage as String);
                     },
                     child: Text(
                       widget.btnText,

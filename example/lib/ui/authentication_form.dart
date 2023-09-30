@@ -1,6 +1,9 @@
+import 'package:example/ui/forgetPassword.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/authentication.dart';
 
 class AuthenticationForm extends StatefulWidget {
   late final TextEditingController emailController;
@@ -23,6 +26,7 @@ class AuthenticationForm extends StatefulWidget {
 
 class _AuthenticationFormState extends State<AuthenticationForm> {
   var _obscurePassword = true;
+  final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -87,7 +91,28 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(ResetPasswordForm(
+                          emailController: emailController,
+                          resetContent: '',
+                          successRoutePage: '') as String);
+                    },
+                    child: Text(
+                      "Forgot Password",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Nunito',
+                          color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Container(
                   width: double.infinity,
@@ -99,13 +124,12 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       ),
                     ),
                     onPressed: () async {
-                      final email = (widget.emailController).text;
+                       final email = (widget.emailController).text;
                       final password = (widget.passwordController).text;
-                      final authRepository = (){};
-                          // Authentication(); 
-                          // Initialize your repository
-                      final result ='';
-                          // await authRepository.signIn(email, password);
+                      final authRepository =
+                          Authentication(); // Initialize your repository
+                      final result =
+                          await authRepository.signIn(email, password);
                       if (result != null) {
                         // Registration failed, display an error message
                       } else {
