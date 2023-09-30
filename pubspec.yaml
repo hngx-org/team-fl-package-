@@ -1,6 +1,7 @@
-name: authentication
+name: hng_authentication
 description: An Authentication package used in hng_internship_10.
 version: 0.0.1
+homepage: https://github.com/hngx-org/team-fl-package-
 environment:
   sdk: '>=3.1.2 <4.0.0'
   flutter: ">=1.17.0"

@@ -1,8 +1,9 @@
-import 'package:authentication/authentication.dart';
-import 'package:authentication/ui/forgetPassword.dart';
-import 'package:authentication/widgets/rounded_bordered_textfield.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hng_authentication/authentication.dart';
+import 'package:hng_authentication/ui/forgetPassword.dart';
+import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
 class AuthenticationForm extends StatefulWidget {
   late final TextEditingController emailController;

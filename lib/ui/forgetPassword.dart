@@ -1,10 +1,11 @@
-import 'package:authentication/widgets/rounded_bordered_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   late final TextEditingController emailController;
   final String resetContent;
+
   final String successRoutePage;
   String btnText;
   Color btnColor;
@@ -12,9 +13,10 @@ class ResetPasswordForm extends StatefulWidget {
   ResetPasswordForm({
     required this.emailController,
     required this.successRoutePage,
-    this.btnText = 'Submit', // Provide a default button text
-    this.btnColor = Colors.green,
     required this.resetContent,
+    this.btnText = 'Submit', // Provide a default button text
+    this.btnColor =
+        Colors.green, // Allow the button color to be null (optional)
   });
 
   @override
@@ -57,7 +59,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                   height: 10,
                 ),
                 Text(
-                  "Enter your email address and we will send you a link to reset your password.",
+                  widget.resetContent,
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
                       letterSpacing: .5,
@@ -65,7 +67,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     ),
                   ),
                 ),
-
                 RoundedBorderedTextField(
                   hintText: "Email Address",
                   keyboardType: TextInputType.emailAddress,
