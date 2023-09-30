@@ -3,14 +3,13 @@ import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/authentication.dart';
 
 class AuthenticationForm extends StatefulWidget {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final String successRoutePage;
-  String btnText;
-  Color btnColor;
+  final String btnText;
+  final Color btnColor;
 
   AuthenticationForm({
     required this.emailController,
@@ -124,20 +123,20 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       ),
                     ),
                     onPressed: () async {
-                       final email = (widget.emailController).text;
-                      final password = (widget.passwordController).text;
-                      final authRepository =
-                          Authentication(); // Initialize your repository
-                      final result =
-                          await authRepository.signIn(email, password);
-                      if (result != null) {
-                        // Registration failed, display an error message
-                      } else {
-                        // Registration successful, proceed with your app
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context)
-                            .pushNamed(widget.successRoutePage);
-                      }
+                      //  final email = (widget.emailController).text;
+                      // final password = (widget.passwordController).text;
+                      // final authRepository = (){};
+                      //     // Authentication(); // Initialize your repository
+                      // final result =
+                      //     await authRepository.signIn(email, password);
+                      // if (result != null) {
+                      //   // Registration failed, display an error message
+                      // } else {
+                      //   // Registration successful, proceed with your app
+                      //   // ignore: use_build_context_synchronously
+                      //   Navigator.of(context)
+                      //       .pushNamed(widget.successRoutePage);
+                      // }
                     },
                     child: Text(
                       widget.btnText,

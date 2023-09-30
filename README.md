@@ -1,23 +1,13 @@
 
 ## Authentication_HNG
 
-A Flutter package for adding authentication to your application.
+A Flutter package for adding authentication to your application. specific to a server
 
-
-
-
-<!-- ## Getting started
-
-- [Installing](installing.md)
-- [Changelog](CHANGELOG.md)
-- [License](LICENSE) -->
 
 ## Usage
 
 [example/lib/main.dart](example/lib/main.dart)
-
 ## Example
-
 ```dart
 import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
@@ -55,5 +45,3 @@ class Signup extends StatelessWidget {
 }
 
 ```
-
-
