@@ -1,15 +1,16 @@
-import 'package:example/ui/forgetPassword.dart';
-import 'package:example/widgets/rounded_bordered_textfield.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:hng_authentication/authentication.dart';
+import 'package:hng_authentication/ui/forgetPassword.dart';
+import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
 class AuthenticationForm extends StatefulWidget {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final String successRoutePage;
-  final String btnText;
-  final Color btnColor;
+  String btnText;
+  Color btnColor;
 
   AuthenticationForm({
     required this.emailController,
@@ -25,7 +26,6 @@ class AuthenticationForm extends StatefulWidget {
 
 class _AuthenticationFormState extends State<AuthenticationForm> {
   var _obscurePassword = true;
-  final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -97,9 +97,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(ResetPasswordForm(
-                          emailController: emailController,
-                          resetContent: '',
-                          successRoutePage: '') as String);
+                        emailController: widget.emailController,
+                        resetContent: '',
+                        successRoutePage: widget.successRoutePage,
+                      ) as String);
                     },
                     child: Text(
                       "Forgot Password",
@@ -123,20 +124,20 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       ),
                     ),
                     onPressed: () async {
-                      //  final email = (widget.emailController).text;
-                      // final password = (widget.passwordController).text;
-                      // final authRepository = (){};
-                      //     // Authentication(); // Initialize your repository
-                      // final result =
-                      //     await authRepository.signIn(email, password);
-                      // if (result != null) {
-                      //   // Registration failed, display an error message
-                      // } else {
-                      //   // Registration successful, proceed with your app
-                      //   // ignore: use_build_context_synchronously
-                      //   Navigator.of(context)
-                      //       .pushNamed(widget.successRoutePage);
-                      // }
+                      final email = (widget.emailController).text;
+                      final password = (widget.passwordController).text;
+                      final authRepository =
+                          Authentication(); // Initialize your repository
+                      final result =
+                          await authRepository.signIn(email, password);
+                      if (result != null) {
+                        // Registration failed, display an error message
+                      } else {
+                        // Registration successful, proceed with your app
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context)
+                            .pushNamed(widget.successRoutePage);
+                      }
                     },
                     child: Text(
                       widget.btnText,

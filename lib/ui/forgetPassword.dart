@@ -1,30 +1,29 @@
-import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
-class RegistrationForm extends StatefulWidget {
-  late final TextEditingController nameController;
+class ResetPasswordForm extends StatefulWidget {
   late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final String resetContent;
+
   final String successRoutePage;
   String btnText;
   Color btnColor;
 
-  RegistrationForm({
-    required this.nameController,
+  ResetPasswordForm({
     required this.emailController,
-    required this.passwordController,
     required this.successRoutePage,
+    required this.resetContent,
     this.btnText = 'Submit', // Provide a default button text
     this.btnColor =
         Colors.green, // Allow the button color to be null (optional)
   });
 
   @override
-  _RegistrationFormState createState() => _RegistrationFormState();
+  _ResetPasswordFormState createState() => _ResetPasswordFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> {
+class _ResetPasswordFormState extends State<ResetPasswordForm> {
   bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
     return Scaffold(
       body: SafeArea(
-        
         child: Padding(
           padding: EdgeInsets.only(
             left: screenWidth * 0.04,
@@ -49,7 +47,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   height: 20,
                 ),
                 Text(
-                  "Create Account",
+                  "Forgot Password",
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
                       letterSpacing: .5,
@@ -60,43 +58,42 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                RoundedBorderedTextField(
-                  hintText: "Username",
-                  controller: widget.nameController,
-                ),
-                SizedBox(
-                  height: 20,
+                Text(
+                  widget.resetContent,
+                  style: GoogleFonts.lato(
+                    textStyle: const TextStyle(
+                      letterSpacing: .5,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
                 RoundedBorderedTextField(
                   hintText: "Email Address",
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                RoundedBorderedTextField(
-                  hintText: "Enter Password",
-                  obscureText: _obscurePassword,
-                  controller: widget.passwordController,
-                  isPass: true,
-                  icon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // RoundedBorderedTextField(
+                //   hintText: "Enter Password",
+                //   obscureText: _obscurePassword,
+                //   controller: widget.passwordController,
+                //   isPass: true,
+                //   icon: IconButton(
+                //     icon: Icon(
+                //       _obscurePassword
+                //           ? Icons.visibility_off
+                //           : Icons.visibility,
+                //       color: Color.fromRGBO(115, 106, 185, 1),
+                //     ),
+                //     onPressed: () {
+                //       setState(() {
+                //         _obscurePassword = !_obscurePassword;
+                //       });
+                //     },
+                //   ),
+                // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -110,7 +107,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(widget.successRoutePage as String);
+                      Navigator.of(context).pushNamed(widget.successRoutePage);
                     },
                     child: Text(
                       widget.btnText,

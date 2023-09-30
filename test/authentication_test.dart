@@ -1,76 +1,221 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+// import 'dart:convert';
 
-import '../example/lib/main.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:mockito/mockito.dart';
 
-void main() {
-  testWidgets('Signup Widget Test', (WidgetTester tester) async {
-    // Build our widget
-    // await tester.pumpWidget(MaterialApp(home: Signup()));
+// // Import your authentication package classes and concrete implementation here
+// import 'package:authentication/authentication.dart';
+// import 'package:authentication/src/authentication_repository.dart';
 
-    // Verify that the widget displays the "Sign Up" text
-    expect(find.text('Sign Up'), findsOneWidget);
+// class MockHttpClient extends Mock implements http.Client {}
 
-    // Simulate a tap on the "Sign Up" button
-    await tester.tap(find.text('Sign Up'));
-    await tester.pump();
+// class ConcreteAuthenticationRepository extends AuthRepository {
+//   ConcreteAuthenticationRepository(http.Client httpClient) : super();
 
-    // Replace this with your authentication success assertions
-    expect(find.text('Successfully signed up: Your_Success_Message'),
-        findsOneWidget);
+//   @override
+//   Future<bool> isSignedIn() {
+//     // TODO: implement isSignedIn
+//     throw UnimplementedError();
+//   }
 
-    // Replace this with your authentication failure assertions
-    expect(find.text('Error: Your_Error_Message'), findsOneWidget);
+//   @override
+//   Future logout(String email) {
+//     // TODO: implement logout
+//     throw UnimplementedError();
+//   }
 
-    // For example, you can check if a SnackBar is displayed after a successful signup
-    expect(find.byType(SnackBar), findsOneWidget);
-  });
+//   @override
+//   Future resetPassword(String email) {
+//     // TODO: implement resetPassword
+//     throw UnimplementedError();
+//   }
 
-  testWidgets('Login Widget Test', (WidgetTester tester) async {
-    // Build our widget
-    // await tester.pumpWidget(MaterialApp(home: Login()));
+//   @override
+//   Future signIn(String email, String password) {
+//     // TODO: implement signIn
+//     throw UnimplementedError();
+//   }
 
-    // Verify that the widget displays the "Sign In" text
-    expect(find.text('Sign In'), findsOneWidget);
+//   @override
+//   Future signUp(String email, String name, String password) {
+//     // TODO: implement signUp
+//     throw UnimplementedError();
+//   }
+// }
 
-    // Simulate a tap on the "Sign In" button
-    await tester.tap(find.text('Sign In'));
-    await tester.pump();
+// void main() {
+//   late ConcreteAuthenticationRepository authenticationRepository;
+//   late MockHttpClient mockHttpClient;
 
-    // Replace this with your authentication success/failure assertions
-    // For example, you can check if a SnackBar is displayed after a successful login
-    expect(find.byType(SnackBar), findsOneWidget);
-  });
+//   setUp(() {
+//     mockHttpClient = MockHttpClient();
+//     authenticationRepository = ConcreteAuthenticationRepository(mockHttpClient);
+//   });
 
-  testWidgets('Logout Widget Test', (WidgetTester tester) async {
-    // Build our widget
-    // await tester.pumpWidget(MaterialApp(home: Logout()));
+//   // Authentication.signUp()
 
-    // Verify that the widget displays the "Log Out" text
-    expect(find.text('Log Out'), findsOneWidget);
+//   test('signUp() successfully creates a new user', () async {
+//     // Mock the HTTP response to return a 200 OK status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/signup'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({
+//         'email': 'test@email.com',
+//         'name': 'Test User',
+//         'password': 'password'
+//       }),
+//     )).thenAnswer(
+//       (_) async => http.Response('''
+//     {
+//     "message": "User Created Succesfully",
+//     "data": {
+//         "name": "name",
+//         "email": "test@mail.com",
+//         "id": "1"
+//     },
+// }''', 201),
+//     );
 
-    // Simulate a tap on the "Log Out" button
-    await tester.tap(find.text('Log Out'));
-    await tester.pump();
+//     // Sign up the new user.
+//     final result = await authenticationRepository.signUp(
+//         'test@email.com', 'Test User', 'password');
 
-    // Replace this with your authentication success/failure assertions
-    // For example, you can check if a SnackBar is displayed after a successful logout
-    expect(find.byType(SnackBar), findsOneWidget);
-  });
+//     // Expect the result to be true.
+//     expect(result, true);
 
-  testWidgets('ResetPassword Widget Test', (WidgetTester tester) async {
-    // Build our widget
-    // await tester.pumpWidget(MaterialApp(home: ResetPassword()));
+//     // Verify that the HTTP client was called with the correct parameters.
+//     verify(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/signup'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({
+//         "name": "name",
+//         "email": "test@mail.com",
+//         "password": "password",
+//         "confirm_password": "password"
+//       }),
+//     ));
+//   });
 
-    // Verify that the widget displays the "Reset Password" text
-    expect(find.text('Reset Password'), findsOneWidget);
+//   test('signUp() throws an exception if the HTTP request fails', () async {
+//     // Mock the HTTP response to return a 500 Internal Server Error status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/signup'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({
+//         "name": "name",
+//         "email": "test@mail.com",
+//         "password": "password",
+//         "confirm_password": "password"
+//       }),
+//     )).thenAnswer((_) async => http.Response(
+//           '{"error": "Internal server error","message":"It\'s not you, it\'s us. We encountered an internal server error.",}',
+//           500,
+//         ));
 
-    // Simulate a tap on the "Reset Password" button
-    await tester.tap(find.text('Reset Password'));
-    await tester.pump();
+//     // Try to sign up the new user and expect an ApiException.
+//     expect(
+//         () async => await authenticationRepository.signUp(
+//             'test@email.com', 'Test User', 'password'),
+//         throwsA(TypeMatcher<ApiException>()));
+//   });
 
-    // Replace this with your authentication success/failure assertions
-    // For example, you can check if a SnackBar is displayed after a password reset request
-    expect(find.byType(SnackBar), findsOneWidget);
-  });
-}
+//   // Authentication.signIn()
+
+//   test('signIn() successfully signs in a user', () async {
+//     // Mock the HTTP response to return a 200 OK status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/login'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com', 'password': 'password'}),
+//     )).thenAnswer((_) async => http.Response('{"success": true}', 200));
+
+//     // Sign in the user.
+//     final result =
+//         await authenticationRepository.signIn('test@email.com', 'password');
+
+//     // Expect the result to be true.
+//     expect(result, true);
+
+//     // Verify that the HTTP client was called with the correct parameters.
+//     verify(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/login'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com', 'password': 'password'}),
+//     ));
+//   });
+
+//   test('signIn() throws an exception if the HTTP request fails', () async {
+//     // Mock the HTTP response to return a 500 Internal Server Error status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/login'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com', 'password': 'password'}),
+//     )).thenAnswer((_) async => http.Response(
+//           '{"error": "Internal server error","message":"It\'s not you, it\'s us. We encountered an internal server error.",}',
+//           500,
+//         ));
+
+//     // Try to sign in the user and expect an ApiException.
+//     expect(
+//         () async =>
+//             await authenticationRepository.signIn('test@email.com', 'password'),
+//         throwsA(TypeMatcher<ApiException>()));
+//   });
+
+//   // Authentication.resetPassword()
+
+//   test('resetPassword() successfully resets a user\'s password', () async {
+//     // Mock the HTTP response to return a 200 OK status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/resetPassword'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com'}),
+//     )).thenAnswer((_) async => http.Response('{"success": true}', 200));
+
+//     // Reset the user's password.
+//     final result =
+//         await authenticationRepository.resetPassword('test@email.com');
+
+//     // Expect the result to be true.
+//     expect(result, true);
+//   });
+
+//   // Authentication.logout()
+
+//   test('logout() successfully logs out a user', () async {
+//     // Mock the HTTP response to return a 200 OK status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/logout'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com'}),
+//     )).thenAnswer((_) async => http.Response('{"success": true}', 200));
+
+//     // Log out the user.
+//     final result = await authenticationRepository.logout('test@email.com');
+
+//     // Expect the result to be true.
+//     expect(result, true);
+
+//     // Verify that the HTTP client was called with the correct parameters.
+//     verify(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/logout'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com'}),
+//     ));
+//   });
+
+//   test('logout() throws an exception if the HTTP request fails', () async {
+//     // Mock the HTTP response to return a 500 Internal Server Error status code.
+//     when(mockHttpClient.post(
+//       Uri.parse('${ApiConfig.baseUrl}/logout'),
+//       headers: ApiConfig.headers,
+//       body: jsonEncode({'email': 'test@email.com'}),
+//     )).thenAnswer(
+//         (_) async => http.Response('{"error": "Internal server error"}', 500));
+
+//     // Try to log out the user and expect an ApiException.
+//     expect(() async => await authenticationRepository.logout('test@email.com'),
+//         throwsA(TypeMatcher<ApiException>()));
+//   });
+// }

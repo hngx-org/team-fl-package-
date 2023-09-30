@@ -1,7 +1,5 @@
 import 'dart:convert';
-
-import 'package:authentication/src/authentication_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:hng_authentication/src/authentication_repository.dart';
 import 'package:http/http.dart' as http;
 
 class ApiConfig {
@@ -36,6 +34,7 @@ class Authentication implements AuthRepository {
       );
       final responseData = jsonDecode(response.body);
       // Return responseData here if needed
+      return responseData;
     } catch (e) {
       throw ApiException('Error signing up: $e');
     }
