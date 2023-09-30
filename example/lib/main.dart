@@ -19,11 +19,17 @@ class MyApp extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     return MaterialApp(
-        title: 'Authentication Example',
-        home: ResetPasswordForm(
-            emailController: emailController,
-            resetContent: 'A link will be sent to your email',
-            successRoutePage: Home() as String));
+      title: 'Authentication Example',
+      routes: {
+        '/': (context) => ResetPasswordForm(
+              emailController: emailController,
+              resetContent: 'A link will be sent to your email',
+              successRoutePage: '/home', // Use the route name here
+            ),
+        '/home': (context) => Home(), // Define a route for Home
+      },
+      initialRoute: '/',
+    );
   }
 }
 
