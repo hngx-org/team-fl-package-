@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiConfig {
-  static const String baseUrl = 'your_api_base_url';
+  static const String baseUrl = 'https://spitfire-openai.onrender.com/api/auth/';
   static const Map<String, String> headers = {
     'Content-Type': 'application/json',
   };
@@ -27,10 +27,10 @@ Future<T> _handleError<T>(dynamic e) {
 
 class Authentication implements AuthRepository {
   @override
-  Future<dynamic> signUp(String email, String name, String password) async {
+   Future<dynamic> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/signup'),
+        Uri.parse('${ApiConfig.baseUrl}/register'),
         headers: ApiConfig.headers,
         body: jsonEncode({'email': email, 'name': name, 'password': password}),
       );

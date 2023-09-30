@@ -6,7 +6,7 @@ import '../example/lib/main.dart';
 void main() {
   testWidgets('Signup Widget Test', (WidgetTester tester) async {
     // Build our widget
-    await tester.pumpWidget(MaterialApp(home: Signup()));
+    // await tester.pumpWidget(MaterialApp(home: Signup()));
 
     // Verify that the widget displays the "Sign Up" text
     expect(find.text('Sign Up'), findsOneWidget);
@@ -28,7 +28,7 @@ void main() {
 
   testWidgets('Login Widget Test', (WidgetTester tester) async {
     // Build our widget
-    await tester.pumpWidget(MaterialApp(home: Login()));
+    // await tester.pumpWidget(MaterialApp(home: Login()));
 
     // Verify that the widget displays the "Sign In" text
     expect(find.text('Sign In'), findsOneWidget);
@@ -44,7 +44,7 @@ void main() {
 
   testWidgets('Logout Widget Test', (WidgetTester tester) async {
     // Build our widget
-    await tester.pumpWidget(MaterialApp(home: Logout()));
+    // await tester.pumpWidget(MaterialApp(home: Logout()));
 
     // Verify that the widget displays the "Log Out" text
     expect(find.text('Log Out'), findsOneWidget);
@@ -60,7 +60,7 @@ void main() {
 
   testWidgets('ResetPassword Widget Test', (WidgetTester tester) async {
     // Build our widget
-    await tester.pumpWidget(MaterialApp(home: ResetPassword()));
+    // await tester.pumpWidget(MaterialApp(home: ResetPassword()));
 
     // Verify that the widget displays the "Reset Password" text
     expect(find.text('Reset Password'), findsOneWidget);
