@@ -1,13 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
-
+import 'package:example/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:flutter/material.dart';
-import 'package:hng_authentication/authentication.dart';
+
 
 
 void main() {
