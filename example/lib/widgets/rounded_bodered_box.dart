@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RoundedBorderedBox extends StatelessWidget {
   final TextInputType? keyboardType;
 
-  const RoundedBorderedBox({
+  const RoundedBorderedBox({super.key, 
     this.keyboardType,
   });
 
@@ -27,7 +27,7 @@ class RoundedBorderedBox extends StatelessWidget {
         },
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           // hintText: hintText,
           border: InputBorder.none,
         ),

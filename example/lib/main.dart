@@ -1,5 +1,3 @@
-import 'package:example/ui/authentication_form.dart';
-import 'package:example/ui/forgetPassword.dart';
 import 'package:example/ui/registration_form.dart';
 import 'package:flutter/material.dart';
 // find a way to import our authentication service from package folder into this example folder to use
@@ -18,15 +16,19 @@ class MyApp extends StatelessWidget {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+
+  
+      
     return MaterialApp(
       title: 'Authentication Example',
       routes: {
-        '/': (context) => ResetPasswordForm(
+        '/': (context) => RegistrationForm(
               emailController: emailController,
-              resetContent: 'A link will be sent to your email',
-              successRoutePage: '/home', // Use the route name here
+              successRoutePage: '/home', 
+              nameController: nameController, 
+              passwordController: passwordController, // Use the route name here
             ),
-        '/home': (context) => Home(), // Define a route for Home
+        '/home': (context) => const Home(), // Define a route for Home
       },
       initialRoute: '/',
     );
