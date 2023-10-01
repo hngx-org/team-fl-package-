@@ -1,7 +1,11 @@
-import 'package:example/widgets/rounded_bordered_textfield.dart';
+
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
+// ignore: must_be_immutable
 class ResetPasswordForm extends StatefulWidget {
   late final TextEditingController emailController;
   final String resetContent;
@@ -24,10 +28,10 @@ class ResetPasswordForm extends StatefulWidget {
 }
 
 class _ResetPasswordFormState extends State<ResetPasswordForm> {
-  final bool _obscurePassword = true;
+  
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+   
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(

@@ -1,3 +1,4 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,13 +6,14 @@ import 'package:hng_authentication/authentication.dart';
 import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
 class AuthenticationForm extends StatefulWidget {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   final String successRoutePage;
   final String btnText;
   final Color btnColor;
 
-  AuthenticationForm({
+  const AuthenticationForm({
+    super.key,
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
@@ -57,7 +59,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -65,7 +67,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -78,7 +80,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
+                      color: const Color.fromRGBO(115, 106, 185, 1),
                     ),
                     onPressed: () {
                       setState(() {
@@ -87,30 +89,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-
-                       Navigator.of(context)
-                          .pushNamed(widget.successRoutePage as String);
-                    },
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
-                          color: Colors.black),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 20,
                 ),
                 SizedBox(
-                  height: 10,
-                ),
-                Container(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
@@ -127,10 +109,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       final result =
                           await authRepository.signIn(email, password);
                       if (result != null) {
-                        // Registration failed, display an error message
+                       
                       } else {
-                        // Registration successful, proceed with your app
-                        // ignore: use_build_context_synchronously
+                       
+                        
                         Navigator.of(context)
                             .pushNamed(widget.successRoutePage);
                       }

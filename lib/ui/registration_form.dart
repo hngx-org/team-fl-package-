@@ -1,4 +1,5 @@
-import 'dart:convert';
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hng_authentication/src/authentication.dart';
@@ -7,14 +8,15 @@ import 'package:hng_authentication/widgets/widget.dart';
 // import 'package:hng_authentication/authentication.dart';
 
 class RegistrationForm extends StatefulWidget {
-  late final TextEditingController nameController;
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final TextEditingController nameController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   final String successRoutePage;
   final String btnText;
   final Color btnColor;
 
-  RegistrationForm({
+  const RegistrationForm({
+    super.key,
     required this.nameController,
     required this.emailController,
     required this.passwordController,
@@ -90,7 +92,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
+                      color: const Color.fromRGBO(115, 106, 185, 1),
                     ),
                     onPressed: () {
                       setState(() {
@@ -105,7 +107,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 RoundedBorderedTextField(
                   hintText: "Confirm Password",
                   obscureText: _obscurePassword,
-                  validator: (val){
+                  validator: (val) {
                     if (val?.isEmpty ?? true) {
                       return 'Please enter your password';
                     } else if ((val?.length ?? 0) < 6) {
@@ -124,7 +126,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
+                      color: const Color.fromRGBO(115, 106, 185, 1),
                     ),
                     onPressed: () {
                       setState(() {
@@ -133,11 +135,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     },
                   ),
                 ),
-               
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
@@ -150,11 +151,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       final email = (widget.emailController).text;
                       final password = (widget.passwordController).text;
                       final name = widget.nameController.text;
-                      final authRepository = Authentication(); 
-                      final result = await authRepository.signUp(email,name,password);
+                      final authRepository = Authentication();
+                      final result =
+                          await authRepository.signUp(email, name, password);
                       if (result != null) {
-                      showSnackbar(context, Colors.black, 'SignUp successful 🎉🎉');
-                      Navigator.of(context).pushNamed(widget.successRoutePage as String);
+                        showSnackbar(
+                            context, Colors.black, 'SignUp successful 🎉🎉');
+                        Navigator.of(context)
+                            .pushNamed(widget.successRoutePage);
                       }
                     },
                     child: Text(

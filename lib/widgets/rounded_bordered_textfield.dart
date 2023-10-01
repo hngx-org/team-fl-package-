@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class RoundedBorderedTextField extends StatelessWidget {
   final String hintText;
   final TextInputType? keyboardType;
@@ -10,7 +10,7 @@ class RoundedBorderedTextField extends StatelessWidget {
   bool isPass;
   final Widget? icon;
 
-  RoundedBorderedTextField({
+  RoundedBorderedTextField({super.key, 
     required this.hintText,
     this.keyboardType,
     this.obscureText = false,
