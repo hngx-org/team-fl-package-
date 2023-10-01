@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RoundedBorderedTextField extends StatelessWidget {
   final String hintText;
@@ -9,7 +8,7 @@ class RoundedBorderedTextField extends StatelessWidget {
   bool isPass;
   final Widget? icon;
 
-  RoundedBorderedTextField({
+  RoundedBorderedTextField({super.key, 
     required this.hintText,
     this.keyboardType,
     this.obscureText = false,

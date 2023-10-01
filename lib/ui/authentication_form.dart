@@ -12,7 +12,7 @@ class AuthenticationForm extends StatefulWidget {
   String btnText;
   Color btnColor;
 
-  AuthenticationForm({
+  AuthenticationForm({super.key, 
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
@@ -59,7 +59,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -67,7 +67,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -80,7 +80,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
+                      color: const Color.fromRGBO(115, 106, 185, 1),
                     ),
                     onPressed: () {
                       setState(() {
@@ -89,7 +89,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Align(
@@ -102,7 +102,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                         successRoutePage: widget.successRoutePage,
                       ) as String);
                     },
-                    child: Text(
+                    child: const Text(
                       "Forgot Password",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -111,10 +111,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(

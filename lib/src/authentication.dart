@@ -40,6 +40,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  @override
   Future<dynamic> signIn(String email, String password) async {
     try {
       final response = await http.post(
@@ -55,6 +56,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  @override
   Future<dynamic> logout(String email) async {
     try {
       final response = await http.post(
@@ -70,6 +72,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  @override
   Future<dynamic> resetPassword(String email) async {
     try {
       final response = await http.post(

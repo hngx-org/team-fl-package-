@@ -11,7 +11,7 @@ class AuthenticationForm extends StatefulWidget {
   final String btnText;
   final Color btnColor;
 
-   AuthenticationForm({super.key, 
+   const AuthenticationForm({super.key, 
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
