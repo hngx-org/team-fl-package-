@@ -1,30 +1,35 @@
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hng_authentication/authentication.dart';
+import 'package:hng_authentication/src/authentication.dart';
 import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
+import 'package:hng_authentication/widgets/widget.dart';
+// import 'package:hng_authentication/authentication.dart';
 
-class AuthenticationForm extends StatefulWidget {
+class RegistrationForm extends StatefulWidget {
+  late final TextEditingController nameController;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final String successRoutePage;
   final String btnText;
   final Color btnColor;
 
-  AuthenticationForm({
+  RegistrationForm({
+    required this.nameController,
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
     this.btnText = 'Submit', // Provide a default button text
-    this.btnColor = Colors.blue, // Allow the button color to be null (optional)
+    this.btnColor =
+        Colors.green, // Allow the button color to be null (optional)
   });
 
   @override
-  _AuthenticationFormState createState() => _AuthenticationFormState();
+  _RegistrationFormState createState() => _RegistrationFormState();
 }
 
-class _AuthenticationFormState extends State<AuthenticationForm> {
-  var _obscurePassword = true;
+class _RegistrationFormState extends State<RegistrationForm> {
+  bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -57,7 +62,14 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 20,
+                ),
+                RoundedBorderedTextField(
+                  hintText: "Username",
+                  controller: widget.nameController,
+                ),
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -65,7 +77,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -87,28 +99,43 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+                const SizedBox(
+                  height: 20,
                 ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-
-                       Navigator.of(context)
-                          .pushNamed(widget.successRoutePage as String);
-                    },
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
-                          color: Colors.black),
+                RoundedBorderedTextField(
+                  hintText: "Confirm Password",
+                  obscureText: _obscurePassword,
+                  validator: (val){
+                    if (val?.isEmpty ?? true) {
+                      return 'Please enter your password';
+                    } else if ((val?.length ?? 0) < 6) {
+                      return 'Password is not up to 6 characters';
+                    } else if (((val?.length ?? 0) >= 6) &&
+                        ((val ?? "") != widget.passwordController.text)) {
+                      return "Password texts don't match";
+                    } else {
+                      return null;
+                    }
+                  },
+                  // controller: widget.passwordController,
+                  isPass: true,
+                  icon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: Color.fromRGBO(115, 106, 185, 1),
                     ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+               
+                const SizedBox(
+                  height: 20,
                 ),
                 Container(
                   width: double.infinity,
@@ -122,17 +149,12 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     onPressed: () async {
                       final email = (widget.emailController).text;
                       final password = (widget.passwordController).text;
-                      final authRepository =
-                          Authentication(); // Initialize your repository
-                      final result =
-                          await authRepository.signIn(email, password);
+                      final name = widget.nameController.text;
+                      final authRepository = Authentication(); 
+                      final result = await authRepository.signUp(email,name,password);
                       if (result != null) {
-                        // Registration failed, display an error message
-                      } else {
-                        // Registration successful, proceed with your app
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context)
-                            .pushNamed(widget.successRoutePage);
+                      showSnackbar(context, Colors.black, 'SignUp successful 🎉🎉');
+                      Navigator.of(context).pushNamed(widget.successRoutePage as String);
                       }
                     },
                     child: Text(
