@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:example/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
+import 'package:example/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:hng_authentication/authentication.dart';
 
 class RegistrationForm extends StatefulWidget {
   late final TextEditingController nameController;
@@ -10,7 +15,7 @@ class RegistrationForm extends StatefulWidget {
   String btnText;
   Color btnColor;
 
-  RegistrationForm({
+  RegistrationForm({super.key, 
     required this.nameController,
     required this.emailController,
     required this.passwordController,
@@ -33,7 +38,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
     return Scaffold(
       body: SafeArea(
-        
         child: Padding(
           padding: EdgeInsets.only(
             left: screenWidth * 0.04,
@@ -60,14 +64,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
                   hintText: "Username",
                   controller: widget.nameController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -75,7 +79,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   keyboardType: TextInputType.emailAddress,
                   controller: widget.emailController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
@@ -88,7 +92,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Color.fromRGBO(115, 106, 185, 1),
+                      color: const Color.fromRGBO(115, 106, 185, 1),
                     ),
                     onPressed: () {
                       setState(() {
@@ -97,10 +101,45 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     },
                   ),
                 ),
-                SizedBox(
+                  const SizedBox(
                   height: 20,
                 ),
-                Container(
+                RoundedBorderedTextField(
+                  hintText: "Confirm Password",
+                  obscureText: _obscurePassword,
+                  validator: (val){
+                    if (val?.isEmpty ?? true) {
+                      return 'Please enter your password';
+                    } else if ((val?.length ?? 0) < 6) {
+                      return 'Password is not up to 6 characters';
+                    } else if (((val?.length ?? 0) >= 6) &&
+                        ((val ?? "") != widget.passwordController.text)) {
+                      return "Password texts don't match";
+                    } else {
+                      return null;
+                    }
+                  },
+                  // controller: widget.passwordController,
+                  isPass: true,
+                  icon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: const Color.fromRGBO(115, 106, 185, 1),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
+               
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
@@ -109,8 +148,26 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         widget.btnColor,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(widget.successRoutePage as String);
+                    onPressed: () async {
+                      print('Button cliskceeeddd');
+                      final email = (widget.emailController).text;
+                      final password = (widget.passwordController).text;
+                      final name = widget.nameController.text;
+                      final authRepository = Authentication(); 
+                      final result =await authRepository.signIn(email, password);
+                      if (result != null) {
+                        // Registration failed, display an error message
+                        final data = json.decode(result.body);
+                       showSnackbar(context, Colors.black, 'SignUp successful');
+                        print('sign up result: >>> $data');
+                         Navigator.of(context)
+                            .pushNamed(widget.successRoutePage);
+                      } else {
+                        print('errror:   eeeeeee');
+                        showSnackbar(
+                            context, Colors.red, 'SignUp ERROR');
+                      }
+                     
                     },
                     child: Text(
                       widget.btnText,

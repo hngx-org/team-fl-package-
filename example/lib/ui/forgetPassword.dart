@@ -10,7 +10,7 @@ class ResetPasswordForm extends StatefulWidget {
   String btnText;
   Color btnColor;
 
-  ResetPasswordForm({
+  ResetPasswordForm({super.key, 
     required this.emailController,
     required this.successRoutePage,
     required this.resetContent,
@@ -24,7 +24,7 @@ class ResetPasswordForm extends StatefulWidget {
 }
 
 class _ResetPasswordFormState extends State<ResetPasswordForm> {
-  bool _obscurePassword = true;
+  final bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -94,10 +94,10 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                 //     },
                 //   ),
                 // ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
