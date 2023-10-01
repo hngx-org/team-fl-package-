@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class RoundedBorderedTextField extends StatelessWidget {
   final String hintText;
   final TextInputType? keyboardType;

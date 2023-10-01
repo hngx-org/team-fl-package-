@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:example/authentication.dart';
@@ -5,8 +7,9 @@ import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:hng_authentication/authentication.dart';
 
+
+// ignore: must_be_immutable
 class RegistrationForm extends StatefulWidget {
   late final TextEditingController nameController;
   late final TextEditingController emailController;
@@ -33,7 +36,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+   
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -149,12 +152,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                     ),
                     onPressed: () async {
-                      print('Button cliskceeeddd');
+                     
                       final email = (widget.emailController).text;
                       final password = (widget.passwordController).text;
                       final name = widget.nameController.text;
                       final authRepository = Authentication(); 
-                      final result =await authRepository.signIn(email, password);
+                      final result =await authRepository.signUp(email,name, password);
                       if (result != null) {
                         // Registration failed, display an error message
                         final data = json.decode(result.body);

@@ -15,13 +15,6 @@ class ApiException implements Exception {
   ApiException(this.message);
 }
 
-Future<T> _handleError<T>(dynamic e) {
-  if (e is ApiException) {
-    throw e;
-  } else {
-    throw ApiException('An error occurred: $e');
-  }
-}
 
 class Authentication implements AuthRepository {
   @override
@@ -77,6 +70,7 @@ class Authentication implements AuthRepository {
   }
 
 
+  @override
   Future<dynamic> isSignedIn() async{
    try {
       final response = await http.post(

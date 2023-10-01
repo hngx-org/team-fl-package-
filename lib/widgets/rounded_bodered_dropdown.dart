@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RoundedBorderedDropdown extends StatelessWidget {
   final String value;
@@ -7,7 +6,7 @@ class RoundedBorderedDropdown extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
   final String hintText;
 
-  const RoundedBorderedDropdown({
+  const RoundedBorderedDropdown({super.key, 
     required this.value,
     required this.items,
     required this.onChanged,
@@ -23,7 +22,7 @@ class RoundedBorderedDropdown extends StatelessWidget {
           height: 10,
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.grey),

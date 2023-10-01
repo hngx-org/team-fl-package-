@@ -1,3 +1,4 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,13 +6,14 @@ import 'package:hng_authentication/authentication.dart';
 import 'package:hng_authentication/widgets/rounded_bordered_textfield.dart';
 
 class AuthenticationForm extends StatefulWidget {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   final String successRoutePage;
   final String btnText;
   final Color btnColor;
 
-  AuthenticationForm({super.key, 
+  const AuthenticationForm({
+    super.key,
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
@@ -88,27 +90,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-
-                       Navigator.of(context)
-                          .pushNamed(widget.successRoutePage as String);
-                    },
-                    child: const Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
-                          color: Colors.black),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -127,10 +109,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       final result =
                           await authRepository.signIn(email, password);
                       if (result != null) {
-                        // Registration failed, display an error message
+                       
                       } else {
-                        // Registration successful, proceed with your app
-                        // ignore: use_build_context_synchronously
+                       
+                        
                         Navigator.of(context)
                             .pushNamed(widget.successRoutePage);
                       }

@@ -1,17 +1,22 @@
-import 'package:example/ui/forgetPassword.dart';
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
+
+import 'dart:convert';
+
+import 'package:example/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
+import 'package:example/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class AuthenticationForm extends StatefulWidget {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   final String successRoutePage;
   final String btnText;
   final Color btnColor;
 
-   const AuthenticationForm({super.key, 
+  const AuthenticationForm({
+    super.key,
     required this.emailController,
     required this.passwordController,
     required this.successRoutePage,
@@ -28,7 +33,6 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
   final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -90,28 +94,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(ResetPasswordForm(
-                          emailController: emailController,
-                          resetContent: '',
-                          successRoutePage: '') as String);
-                    },
-                    child: const Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
-                          color: Colors.black),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -123,20 +106,24 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       ),
                     ),
                     onPressed: () async {
-                      //  final email = (widget.emailController).text;
-                      // final password = (widget.passwordController).text;
-                      // final authRepository = (){};
-                      //     // Authentication(); // Initialize your repository
-                      // final result =
-                      //     await authRepository.signIn(email, password);
-                      // if (result != null) {
-                      //   // Registration failed, display an error message
-                      // } else {
-                      //   // Registration successful, proceed with your app
-                      //   // ignore: use_build_context_synchronously
-                      //   Navigator.of(context)
-                      //       .pushNamed(widget.successRoutePage);
-                      // }
+                      final email = (widget.emailController).text;
+                      final password = (widget.passwordController).text;
+                      final authRepository = Authentication();
+                      final result =
+                          await authRepository.signIn(email, password);
+                      if (result != null) {
+                        // Registration failed, display an error message
+                        final data = json.decode(result.body);
+                        showSnackbar(
+                            context, Colors.black, 'SignUp successful');
+                        
+                        Navigator.of(context)
+                            .pushNamed(widget.successRoutePage);
+                            print('sign up result: >>> $data');
+                      } else {
+                        print('errror:   eeeeeee');
+                        showSnackbar(context, Colors.red, 'SignUp ERROR');
+                      }
                     },
                     child: Text(
                       widget.btnText,

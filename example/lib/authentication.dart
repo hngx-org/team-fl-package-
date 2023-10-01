@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, implementation_imports
+
 import 'dart:convert';
 import 'package:hng_authentication/src/authentication_repository.dart';
 import 'package:http/http.dart' as http;
@@ -15,30 +17,25 @@ class ApiException implements Exception {
   ApiException(this.message);
 }
 
-Future<T> _handleError<T>(dynamic e) {
-  if (e is ApiException) {
-    throw e;
-  } else {
-    throw ApiException('An error occurred: $e');
-  }
-}
-
 class Authentication implements AuthRepository {
   @override
-   Future<dynamic> signUp(String email, String name, String password) async {
+  Future<dynamic> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/register'),
         headers: ApiConfig.headers,
-        body: jsonEncode({'email': email, 'name': name, 'password': password, 'confirm_password': password}),
+        body: jsonEncode({
+          'email': email,
+          'name': name,
+          'password': password,
+          'confirm_password': password
+        }),
       );
       final responseData = jsonDecode(response.body);
       // Return responseData here if needed
-      print('SIGNup RESULT : >>>>> $responseData');
+
       return responseData;
-      
     } catch (e) {
-      print('errrrrrrrrrroooooooorrrrrrrrrr: $e');
       throw ApiException('Error signing up: $e');
     }
   }
@@ -53,7 +50,7 @@ class Authentication implements AuthRepository {
       );
 
       final responseData = json.decode(response.body);
-      print('response for sign in:>>>  $responseData');
+
       return responseData;
     } catch (e) {
       throw ApiException('Error signing in: $e');
@@ -94,7 +91,7 @@ class Authentication implements AuthRepository {
 
   @override
   Future<bool> isSignedIn() {
-    // TODO: implement isSignedIn
+    
     throw UnimplementedError();
   }
 }
