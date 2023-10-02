@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class RoundedBorderedBox extends StatelessWidget {
   final TextInputType? keyboardType;
 
-  const RoundedBorderedBox({super.key, 
+  const RoundedBorderedBox({
+    super.key,
     this.keyboardType,
   });
 

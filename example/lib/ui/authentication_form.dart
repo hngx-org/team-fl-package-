@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-
 import 'package:example/src/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
@@ -117,10 +116,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                         final data = json.decode(result.body);
                         showSnackbar(
                             context, Colors.black, 'SignUp successful');
-                        
+
                         Navigator.of(context)
                             .pushNamed(widget.successRoutePage);
-                            print('sign up result: >>> $data');
+                        print('sign up result: >>> $data');
                       } else {
                         print('errror:   eeeeeee');
                         showSnackbar(context, Colors.red, 'SignUp ERROR');

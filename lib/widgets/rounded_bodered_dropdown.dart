@@ -6,7 +6,8 @@ class RoundedBorderedDropdown extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
   final String hintText;
 
-  const RoundedBorderedDropdown({super.key, 
+  const RoundedBorderedDropdown({
+    super.key,
     required this.value,
     required this.items,
     required this.onChanged,
