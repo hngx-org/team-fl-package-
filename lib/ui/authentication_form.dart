@@ -109,10 +109,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                       final result =
                           await authRepository.signIn(email, password);
                       if (result != null) {
-                       
                       } else {
-                       
-                        
                         Navigator.of(context)
                             .pushNamed(widget.successRoutePage);
                       }
