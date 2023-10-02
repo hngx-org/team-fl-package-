@@ -2,7 +2,8 @@
 
 import 'dart:convert';
 
-import 'package:example/authentication.dart';
+
+import 'package:example/src/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
 import 'package:flutter/material.dart';

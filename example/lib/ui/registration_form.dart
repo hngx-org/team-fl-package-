@@ -1,12 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
-
-import 'package:example/authentication.dart';
+import 'package:example/src/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 // ignore: must_be_immutable
 class RegistrationForm extends StatefulWidget {
@@ -17,7 +15,8 @@ class RegistrationForm extends StatefulWidget {
   String btnText;
   Color btnColor;
 
-  RegistrationForm({super.key, 
+  RegistrationForm({
+    super.key,
     required this.nameController,
     required this.emailController,
     required this.passwordController,
@@ -35,7 +34,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
   bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
-   
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -103,13 +101,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     },
                   ),
                 ),
-                  const SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 RoundedBorderedTextField(
                   hintText: "Confirm Password",
                   obscureText: _obscurePassword,
-                  validator: (val){
+                  validator: (val) {
                     if (val?.isEmpty ?? true) {
                       return 'Please enter your password';
                     } else if ((val?.length ?? 0) < 6) {
@@ -137,7 +135,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     },
                   ),
                 ),
-               
                 const SizedBox(
                   height: 20,
                 ),
@@ -151,27 +148,26 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                     ),
                     onPressed: () async {
-                     
                       final email = (widget.emailController).text;
                       final password = (widget.passwordController).text;
                       final name = widget.nameController.text;
-                      final authRepository = Authentication(); 
-                      final data =await authRepository.signUp(email,name, password);
+                      final authRepository = Authentication();
+                      final data =
+                          await authRepository.signUp(email, name, password);
                       if (data != null) {
                         // Registration failed, display an error message
-                       
-                       showSnackbar(context, Colors.black, 'SignUp successful');
+
+                        showSnackbar(
+                            context, Colors.black, 'SignUp successful');
                         print('sign up Email >>> ${data.email}');
                         print('sign up id >>> ${data.id}');
                         print('sign up created at >>> ${data.createdAt}');
-                         Navigator.of(context)
+                        Navigator.of(context)
                             .pushNamed(widget.successRoutePage);
                       } else {
                         print('errror:   eeeeeee');
-                        showSnackbar(
-                            context, Colors.red, 'SignUp ERROR');
+                        showSnackbar(context, Colors.red, 'SignUp ERROR');
                       }
-                     
                     },
                     child: Text(
                       widget.btnText,

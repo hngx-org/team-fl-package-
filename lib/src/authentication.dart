@@ -87,11 +87,11 @@ class Authentication implements AuthRepository {
         Uri.parse('${ApiConfig.baseUrl}/login'),
         headers: ApiConfig.headers,
         body: jsonEncode({
-          'email': email, 
+          'email': email,
           'password': password,
-          }),
+        }),
       );
-            switch (response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
           final user = User(
@@ -121,14 +121,13 @@ class Authentication implements AuthRepository {
         default:
           throw Failure('Unknown error occurred.');
       }
-
     } catch (e) {
       throw Failure(e.toString());
     }
   }
 
   @override
-  Future<dynamic> logout(String email) async {
+  Future logout(String email) async {
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/logout'),
@@ -143,13 +142,13 @@ class Authentication implements AuthRepository {
   }
 
   @override
-  Future<dynamic> getUser() async {
+  Future getUser() async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/@me'),
         headers: ApiConfig.headers,
       );
-         switch (response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
           final user = User(
@@ -183,5 +182,4 @@ class Authentication implements AuthRepository {
       throw Failure(e.toString());
     }
   }
-
 }

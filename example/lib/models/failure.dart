@@ -10,6 +10,5 @@ class Failure {
       );
 
   @override
-  String toString() => 'Failure(message: $message)';
-
+  String toString() => 'Failure(message: ${message.toString()})';
 }

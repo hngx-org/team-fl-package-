@@ -60,9 +60,9 @@ void main() {
         () async => await authentication.signIn(email, password),
         throwsA(isA<Failure>()),
       );
-      // You can add more specific assertions about the Failure object if needed
+      
     });
 
-    // Add more test cases for other methods and scenarios as needed
+    
   });
 }
