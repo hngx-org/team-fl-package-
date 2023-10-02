@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:example/src/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
               emailController: emailController,
               successRoutePage: '/home',
               nameController: nameController,
-              passwordController: passwordController,
+              passwordController: passwordController, // Use the route name here
             ),
         '/home': (context) => const Home(),
       },
@@ -50,7 +52,6 @@ class _HomeState extends State<Home> {
 }
 
 // ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
-
 class RegistrationForm extends StatefulWidget {
   late final TextEditingController nameController;
   late final TextEditingController emailController;

@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:example/models/failure.dart';
 import 'package:example/models/user.dart';
 import 'package:example/src/authentication_repository.dart';
 import 'package:http/http.dart' as http;
-
-
 
 class ApiConfig {
   static const String baseUrl =
@@ -24,7 +21,7 @@ class ApiException implements Exception {
 
 class Authentication implements AuthRepository {
   @override
-  // accept defined model, crete a listner for FE.
+  
   Future<User?> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
@@ -38,17 +35,19 @@ class Authentication implements AuthRepository {
         }),
       );
 
+
+
       switch (response.statusCode) {
-        case 200:
+        case 201:
           final responseData = jsonDecode(response.body)['data'];
+          
           final user = User(
             id: responseData['id'],
             name: responseData['name'],
             email: responseData['email'],
-            createdAt: DateTime.parse(responseData['created_at']),
-            updatedAt: DateTime.parse(responseData['updated_at']),
             credits: responseData['credits'],
           );
+          
           return user;
 
         case 400:
@@ -78,7 +77,7 @@ class Authentication implements AuthRepository {
     } on HttpException {
       throw Failure('Please check your internet connection');
     } catch (e) {
-      throw Failure(e.toString());
+      throw ApiException('Error signing up: ${e.toString()}');
     }
   }
 
