@@ -1,8 +1,8 @@
-
+import 'package:example/models/user.dart';
 
 abstract class AuthRepository {
-  Future<dynamic> signUp(String email, String name, String password);
-  Future<dynamic> signIn(String email, String password);
-  Future<dynamic> logout(String email);
-  Future<dynamic> getUser();
+  Future<User?> signUp(String email, String name, String password);
+  Future signIn(String email, String password);
+  Future logout(String email);
+  Future getUser();
 }

@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:hng_authentication/src/authentication_repository.dart';
 import 'package:hng_authentication/src/models/failure.dart';
+import 'package:hng_authentication/src/models/user.dart';
 import 'package:http/http.dart' as http;
-
-import 'models/user.dart';
 
 class ApiConfig {
   static const String baseUrl =
@@ -22,7 +22,6 @@ class ApiException implements Exception {
 
 class Authentication implements AuthRepository {
   @override
-  // accept defined model, crete a listner for FE.
   Future<User?> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
@@ -37,16 +36,16 @@ class Authentication implements AuthRepository {
       );
 
       switch (response.statusCode) {
-        case 200:
+        case 201:
           final responseData = jsonDecode(response.body)['data'];
+
           final user = User(
             id: responseData['id'],
             name: responseData['name'],
             email: responseData['email'],
-            createdAt: DateTime.parse(responseData['created_at']),
-            updatedAt: DateTime.parse(responseData['updated_at']),
             credits: responseData['credits'],
           );
+
           return user;
 
         case 400:
@@ -76,7 +75,7 @@ class Authentication implements AuthRepository {
     } on HttpException {
       throw Failure('Please check your internet connection');
     } catch (e) {
-      throw Failure(e.toString());
+      throw ApiException('Error signing up: ${e.toString()}');
     }
   }
 
@@ -87,11 +86,11 @@ class Authentication implements AuthRepository {
         Uri.parse('${ApiConfig.baseUrl}/login'),
         headers: ApiConfig.headers,
         body: jsonEncode({
-          'email': email, 
+          'email': email,
           'password': password,
-          }),
+        }),
       );
-            switch (response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
           final user = User(
@@ -121,14 +120,13 @@ class Authentication implements AuthRepository {
         default:
           throw Failure('Unknown error occurred.');
       }
-
     } catch (e) {
       throw Failure(e.toString());
     }
   }
 
   @override
-  Future<dynamic> logout(String email) async {
+  Future logout(String email) async {
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/logout'),
@@ -143,13 +141,13 @@ class Authentication implements AuthRepository {
   }
 
   @override
-  Future<dynamic> getUser() async {
+  Future getUser() async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/@me'),
         headers: ApiConfig.headers,
       );
-         switch (response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
           final user = User(
@@ -183,5 +181,4 @@ class Authentication implements AuthRepository {
       throw Failure(e.toString());
     }
   }
-
 }
