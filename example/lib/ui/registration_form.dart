@@ -1,6 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
-import 'dart:convert';
 
 import 'package:example/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
@@ -157,12 +156,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       final password = (widget.passwordController).text;
                       final name = widget.nameController.text;
                       final authRepository = Authentication(); 
-                      final result =await authRepository.signUp(email,name, password);
-                      if (result != null) {
+                      final data =await authRepository.signUp(email,name, password);
+                      if (data != null) {
                         // Registration failed, display an error message
-                        final data = json.decode(result.body);
+                       
                        showSnackbar(context, Colors.black, 'SignUp successful');
-                        print('sign up result: >>> $data');
+                        print('sign up Email >>> ${data.email}');
+                        print('sign up id >>> ${data.id}');
+                        print('sign up created at >>> ${data.createdAt}');
                          Navigator.of(context)
                             .pushNamed(widget.successRoutePage);
                       } else {

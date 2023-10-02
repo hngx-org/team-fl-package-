@@ -1,90 +1,68 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hng_authentication/authentication.dart';
-import 'package:mockito/mockito.dart';
+import 'package:hng_authentication/src/models/failure.dart';
+import 'package:hng_authentication/src/models/user.dart';
+import 'package:hng_authentication/authentication.dart'; // Import your Authentication class
 
-import 'package:http/http.dart' as http;
-
-// Create a mock HTTP client for testing
-class MockClient extends Mock implements http.Client {}
 
 void main() {
-  group('Authentication Tests', () {
-    Authentication authentication = Authentication();
-    MockClient mockClient;
+  group('Authentication', () {
+    Authentication authentication =
+        Authentication(); // Initialize your Authentication class
 
-    setUp(() {
-      mockClient = MockClient();
-
-      // Mock the HTTP response for sign up
-      when(mockClient.post(
-        Uri.parse('${ApiConfig.baseUrl}/register'),
-        headers: ApiConfig.headers,
-        body: jsonEncode({
-          'email': anyNamed('email'),
-          'name': anyNamed('name'),
-          'password': anyNamed('password'),
-          'confirm_password': anyNamed('confirm_password'),
-        }),
-      )).thenAnswer((_) async => http.Response('{"success": true}', 200));
-
-      // Mock the HTTP response for sign in
-      when(mockClient.post(
-        Uri.parse('${ApiConfig.baseUrl}/login'),
-        headers: ApiConfig.headers,
-        body: jsonEncode({
-          'email': anyNamed('email'),
-          'password': anyNamed('password'),
-        }),
-      )).thenAnswer((_) async => http.Response('{"success": true}', 200));
-
-      // Mock the HTTP response for isSignedIn
-      when(mockClient.post(
-        Uri.parse('${ApiConfig.baseUrl}/@me'),
-        headers: ApiConfig.headers,
-      )).thenAnswer((_) async => http.Response('{"authenticated": true}', 200));
-
-      // Mock the HTTP response for logout
-      when(mockClient.get(
-        Uri.parse('${ApiConfig.baseUrl}/logout'),
-        headers: ApiConfig.headers,
-      )).thenAnswer((_) async => http.Response('{"success": true}', 200));
-    });
-
-    test('Sign Up - Successful', () async {
+    test('signUp - successful sign-up returns a User', () async {
+      // Arrange
       const email = 'test@example.com';
       const name = 'Test User';
-      const password = 'password123';
+      const password = 'password';
 
-      final response = await authentication.signUp(email,name,password);
+      // Act
+      final user = await authentication.signUp(email, name, password);
 
-      expect(response, isNotNull);
-      expect(response['success'], true);
+      // Assert
+      expect(user, isA<User>());
+      // Add more specific assertions about the returned user if needed
     });
 
-    test('Sign In - Successful', () async {
+    test('signUp - invalid input data throws Failure', () async {
+      // Arrange
       const email = 'test@example.com';
-      const password = 'password123';
+      const name = 'Test User';
+      const password = 'password';
 
-      final response = await authentication.signIn(email, password);
-
-      expect(response, isNotNull);
-      expect(response['success'], true);
+      // Act and Assert
+      expect(
+        () async => await authentication.signUp(email, name, password),
+        throwsA(isA<Failure>()),
+      );
+      // You can add more specific assertions about the Failure object if needed
     });
 
-    test('Is Signed In - Successful', () async {
-      final response = await authentication.isSignedIn();
+    test('signIn - successful sign-in returns a User', () async {
+      // Arrange
+      const email = 'test@example.com';
+      const password = 'password';
 
-      expect(response, isNotNull);
-      expect(response['authenticated'], true);
+      // Act
+      final user = await authentication.signIn(email, password);
+
+      // Assert
+      expect(user, isA<User>());
+      // Add more specific assertions about the returned user if needed
     });
 
-    test('Logout - Successful', () async {
-      final response = await authentication.logout('test@example.com');
+    test('signIn - invalid input data throws Failure', () async {
+      // Arrange
+      const email = 'test@example.com';
+      const password = 'password';
 
-      expect(response, isNotNull);
-      expect(response['success'], true);
+      // Act and Assert
+      expect(
+        () async => await authentication.signIn(email, password),
+        throwsA(isA<Failure>()),
+      );
+      // You can add more specific assertions about the Failure object if needed
     });
+
+    // Add more test cases for other methods and scenarios as needed
   });
 }

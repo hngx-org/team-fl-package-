@@ -1,11 +1,14 @@
-// ignore_for_file: depend_on_referenced_packages, implementation_imports
-
 import 'dart:convert';
+import 'dart:io';
+import 'package:example/models/failure.dart';
 import 'package:hng_authentication/src/authentication_repository.dart';
 import 'package:http/http.dart' as http;
 
+import 'models/user.dart';
+
 class ApiConfig {
-  static const String baseUrl = 'https://spitfire-openai.onrender.com/api/auth';
+  static const String baseUrl =
+      'https://spitfire-interractions.onrender.com/api/auth';
   static const Map<String, String> headers = {
     'Content-Type': 'application/json',
   };
@@ -19,7 +22,8 @@ class ApiException implements Exception {
 
 class Authentication implements AuthRepository {
   @override
-  Future<dynamic> signUp(String email, String name, String password) async {
+  // accept defined model, crete a listner for FE.
+  Future<User?> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/register'),
@@ -28,70 +32,154 @@ class Authentication implements AuthRepository {
           'email': email,
           'name': name,
           'password': password,
-          'confirm_password': password
+          'confirm_password': password,
         }),
       );
-      final responseData = jsonDecode(response.body);
-      // Return responseData here if needed
 
-      return responseData;
+      switch (response.statusCode) {
+        case 200:
+          final responseData = jsonDecode(response.body)['data'];
+          final user = User(
+            id: responseData['id'],
+            name: responseData['name'],
+            email: responseData['email'],
+            createdAt: DateTime.parse(responseData['created_at']),
+            updatedAt: DateTime.parse(responseData['updated_at']),
+            credits: responseData['credits'],
+          );
+          return user;
+
+        case 400:
+          throw Failure('Invalid input data.');
+
+        case 405:
+          throw Failure(
+              'The HTTP method used is not allowed for this endpoint.');
+
+        case 413:
+          throw Failure('The request body is too long');
+
+        case 422:
+          throw Failure(
+              'The server cannot process the request due to invalid data.');
+
+        case 429:
+          throw Failure('Rate limit exceeded. Please try again later.');
+
+        default:
+          throw Failure('Unknown error occurred.');
+      }
+    } on SocketException {
+      throw Failure('Please check your internet connection 😑');
+    } on FormatException {
+      throw Failure('Bad response format 👎');
+    } on HttpException {
+      throw Failure('Please check your internet connection');
     } catch (e) {
-      throw ApiException('Error signing up: $e');
+      throw Failure(e.toString());
     }
   }
 
   @override
-  Future<dynamic> signIn(String email, String password) async {
+  Future signIn(String email, String password) async {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/login'),
         headers: ApiConfig.headers,
-        body: jsonEncode({'email': email, 'password': password}),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
       );
+      switch (response.statusCode) {
+        case 200:
+          final responseData = jsonDecode(response.body)['data'];
+          final user = User(
+            id: responseData['id'],
+            name: responseData['name'],
+            email: responseData['email'],
+          );
+          return user;
 
-      final responseData = json.decode(response.body);
+        case 400:
+          throw Failure('Invalid input data.');
 
-      return responseData;
+        case 405:
+          throw Failure(
+              'The HTTP method used is not allowed for this endpoint.');
+
+        case 413:
+          throw Failure('The request body is too long');
+
+        case 422:
+          throw Failure(
+              'The server cannot process the request due to invalid data.');
+
+        case 429:
+          throw Failure('Rate limit exceeded. Please try again later.');
+
+        default:
+          throw Failure('Unknown error occurred.');
+      }
     } catch (e) {
-      throw ApiException('Error signing in: $e');
+      throw Failure(e.toString());
     }
   }
 
   @override
-  Future<dynamic> logout(String email) async {
+  Future logout(String email) async {
     try {
-      final response = await http.post(
+      final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/logout'),
         headers: ApiConfig.headers,
-        body: jsonEncode({'email': email}),
       );
 
       final responseData = json.decode(response.body);
       return responseData;
     } catch (e) {
-      throw ApiException('Error logging out: $e');
+      throw ApiException('Error logging out: ${e.toString()}');
     }
   }
 
   @override
-  Future<dynamic> resetPassword(String email) async {
+  Future getUser() async {
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/resetPassword'),
+        Uri.parse('${ApiConfig.baseUrl}/@me'),
         headers: ApiConfig.headers,
-        body: jsonEncode({'email': email}),
       );
+      switch (response.statusCode) {
+        case 200:
+          final responseData = jsonDecode(response.body)['data'];
+          final user = User(
+            id: responseData['id'],
+            name: responseData['name'],
+            email: responseData['email'],
+          );
+          return user;
 
-      final responseData = json.decode(response.body);
-      return responseData;
+        case 400:
+          throw Failure('Invalid input data.');
+
+        case 405:
+          throw Failure(
+              'The HTTP method used is not allowed for this endpoint.');
+
+        case 413:
+          throw Failure('The request body is too long');
+
+        case 422:
+          throw Failure(
+              'The server cannot process the request due to invalid data.');
+
+        case 429:
+          throw Failure('Rate limit exceeded. Please try again later.');
+
+        default:
+          throw Failure('Unknown error occurred.');
+      }
     } catch (e) {
-      throw ApiException('Error resetting password: $e');
+      throw Failure(e.toString());
     }
-  }
-
-  @override
-  Future<bool> isSignedIn() {
-    
-    throw UnimplementedError();
   }
 }
