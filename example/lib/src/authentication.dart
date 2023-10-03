@@ -33,6 +33,8 @@ class Authentication implements AuthRepository {
           'confirm_password': password,
         }),
       );
+      final responseData = jsonDecode(response.body)['data'];
+      print('response date: >>>>>>${responseData}');
 
       switch (response.statusCode) {
         case 201:
