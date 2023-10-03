@@ -7,8 +7,7 @@ class User {
   final int ? credits;
   final String ? cookie;
 
-
-    @override
+  @override
   String toString() => 'User Created Succesfully';
 
 

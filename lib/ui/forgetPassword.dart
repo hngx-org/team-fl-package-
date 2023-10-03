@@ -1,4 +1,3 @@
-
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
@@ -14,7 +13,8 @@ class ResetPasswordForm extends StatefulWidget {
   String btnText;
   Color btnColor;
 
-  ResetPasswordForm({super.key, 
+  ResetPasswordForm({
+    super.key,
     required this.emailController,
     required this.successRoutePage,
     required this.resetContent,
@@ -28,10 +28,8 @@ class ResetPasswordForm extends StatefulWidget {
 }
 
 class _ResetPasswordFormState extends State<ResetPasswordForm> {
-  
   @override
   Widget build(BuildContext context) {
-   
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(

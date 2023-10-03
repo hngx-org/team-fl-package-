@@ -10,7 +10,8 @@ class RoundedBorderedTextField extends StatelessWidget {
   bool isPass;
   final Widget? icon;
 
-  RoundedBorderedTextField({super.key, 
+  RoundedBorderedTextField({
+    super.key,
     required this.hintText,
     this.keyboardType,
     this.obscureText = false,
@@ -39,14 +40,14 @@ class RoundedBorderedTextField extends StatelessWidget {
             obscureText: obscureText,
             controller: controller,
             validator: validator ??
-          (val) {
-            if ((val?.length ?? 0) == 0) {
-              return "Field is required";
-            } else {
-              return null;
-            }
-          },
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+                (val) {
+                  if ((val?.length ?? 0) == 0) {
+                    return "Field is required";
+                  } else {
+                    return null;
+                  }
+                },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               hintText: hintText,
               border: InputBorder.none,

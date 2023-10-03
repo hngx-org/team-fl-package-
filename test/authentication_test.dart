@@ -1,13 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hng_authentication/src/models/failure.dart';
 import 'package:hng_authentication/src/models/user.dart';
-import 'package:hng_authentication/authentication.dart'; 
-
+import 'package:hng_authentication/authentication.dart';
 
 void main() {
   group('Authentication', () {
-    Authentication authentication =
-        Authentication(); 
+    Authentication authentication = Authentication();
 
     test('signUp - successful sign-up returns a User', () async {
       //Arrange
@@ -20,7 +18,6 @@ void main() {
 
       // Assert
       expect(user, isA<User>());
-    
     });
 
     test('signUp - invalid input data throws Failure', () async {
@@ -34,7 +31,6 @@ void main() {
         () async => await authentication.signUp(email, name, password),
         throwsA(isA<Failure>()),
       );
-     
     });
 
     test('signIn - successful sign-in returns a User', () async {
@@ -47,22 +43,16 @@ void main() {
 
       // Assert
       expect(user, isA<User>());
-      
     });
 
     test('signIn - invalid input data throws Failure', () async {
-     
       const email = 'test@example.com';
       const password = 'password';
 
-     
       expect(
         () async => await authentication.signIn(email, password),
         throwsA(isA<Failure>()),
       );
-      
     });
-
-    
   });
 }

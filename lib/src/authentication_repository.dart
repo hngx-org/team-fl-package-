@@ -1,5 +1,3 @@
-
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:hng_authentication/src/models/user.dart';
 
 abstract class AuthRepository {

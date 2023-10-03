@@ -11,5 +11,4 @@ class Failure {
 
   @override
   String toString() => 'Failure(message: $message)';
-
 }

@@ -21,7 +21,6 @@ class ApiException implements Exception {
 
 class Authentication implements AuthRepository {
   @override
-  
   Future<User?> signUp(String email, String name, String password) async {
     try {
       final response = await http.post(
@@ -37,20 +36,17 @@ class Authentication implements AuthRepository {
       final responseData = jsonDecode(response.body)['data'];
       print('response date: >>>>>>${responseData}');
 
-      print('>>>>>this is the cookie in register function: ${response.headers['set-cookie']}');
-
-
       switch (response.statusCode) {
         case 201:
           final responseData = jsonDecode(response.body)['data'];
-          
-          final user =  User(
+
+          final user = User(
             id: responseData['id'],
             name: responseData['name'],
             email: responseData['email'],
             credits: responseData['credits'],
           );
-          
+
           return user;
 
         case 400:
