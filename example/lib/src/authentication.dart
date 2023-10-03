@@ -34,14 +34,17 @@ class Authentication implements AuthRepository {
           'confirm_password': password,
         }),
       );
+      final responseData = jsonDecode(response.body)['data'];
+      print('response date: >>>>>>${responseData}');
 
+      print('>>>>>this is the cookie in register function: ${response.headers['set-cookie']}');
 
 
       switch (response.statusCode) {
         case 201:
           final responseData = jsonDecode(response.body)['data'];
           
-          final user = User(
+          final user =  User(
             id: responseData['id'],
             name: responseData['name'],
             email: responseData['email'],

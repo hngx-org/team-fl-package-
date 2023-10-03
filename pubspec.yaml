@@ -11,11 +11,13 @@ environment:
 
 dependencies:
   
+  cookie_jar: ^4.0.8
   flutter:
     sdk: flutter
   google_fonts: ^6.1.0
   http: ^1.1.0
   mockito: ^5.4.2
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
