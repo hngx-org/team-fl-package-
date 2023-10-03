@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:convert';
-
 import 'package:example/src/authentication.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';

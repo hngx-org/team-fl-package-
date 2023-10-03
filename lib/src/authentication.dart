@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:hng_authentication/src/authentication_repository.dart';
 import 'package:hng_authentication/src/models/failure.dart';
 import 'package:hng_authentication/src/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiConfig {
   static const String baseUrl =
@@ -23,6 +23,7 @@ class ApiException implements Exception {
 class Authentication implements AuthRepository {
   @override
   Future<User?> signUp(String email, String name, String password) async {
+    
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/register'),
@@ -84,12 +85,12 @@ class Authentication implements AuthRepository {
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/login'),
-        headers: ApiConfig.headers,
+         headers: ApiConfig.headers,
         body: jsonEncode({
           'email': email,
           'password': password,
-        }),
-      );
+        }));
+     
       switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
@@ -97,6 +98,8 @@ class Authentication implements AuthRepository {
             id: responseData['id'],
             name: responseData['name'],
             email: responseData['email'],
+            cookie: response.headers['set-cookie'],
+            credits: responseData['credits'],
           );
           return user;
 
@@ -125,15 +128,18 @@ class Authentication implements AuthRepository {
     }
   }
 
+ 
   @override
   Future logout(String email) async {
+    final pref = await SharedPreferences.getInstance();
+    
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/logout'),
         headers: ApiConfig.headers,
       );
-
       final responseData = json.decode(response.body);
+      pref.clear();
       return responseData;
     } catch (e) {
       throw ApiException('Error logging out: ${e.toString()}');
@@ -141,11 +147,16 @@ class Authentication implements AuthRepository {
   }
 
   @override
-  Future getUser() async {
+  Future getUser() async { 
+    final pref = await SharedPreferences.getInstance();
+    final cookie = pref.getString('cookie');
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/@me'),
-        headers: ApiConfig.headers,
+        headers: {
+          ...ApiConfig.headers,
+          'cookie': cookie!,
+          },
       );
       switch (response.statusCode) {
         case 200:
@@ -154,6 +165,8 @@ class Authentication implements AuthRepository {
             id: responseData['id'],
             name: responseData['name'],
             email: responseData['email'],
+            credits: responseData['credits'],
+            cookie: cookie
           );
           return user;
 
