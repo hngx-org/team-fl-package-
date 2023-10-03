@@ -21,6 +21,8 @@ class ApiException implements Exception {
 }
 
 class Authentication implements AuthRepository {
+
+  //signup function. This function registers a user, to allow usage of the App.
   @override
   Future<User?> signUp(String email, String name, String password) async {
     try {
@@ -79,6 +81,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  //signin function. This function allows a registered user to access the App
   @override
   Future signIn(String email, String password) async {
     try {
@@ -125,6 +128,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  //logout function. This function logout the user from the App.
   @override
   Future logout(String email) async {
     try {
@@ -140,6 +144,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  //getUser Profile for the server to be displayed on the App
   @override
   Future getUser() async {
     try {

@@ -2,7 +2,7 @@ name: hng_authentication
 description: An Authentication package used in hng_internship_10. This package
   offer the client the ability to call the signup, signin, logout functions and
   also check currently logged in user.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/hngx-org/team-fl-package-
 
 environment:

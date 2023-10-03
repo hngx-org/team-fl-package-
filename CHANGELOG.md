@@ -13,4 +13,7 @@
 * Refactored authentication.dart to use User and Failure Model. 
 
 ## 0.1.1
-* Refactored authentication.dart to use User and Failure Model. Dart format code
+* Refactored authentication.dart to use User and Failure Model, Dart format code.
+
+## 0.1.2
+* Added Dart doc to the package.
