@@ -4,6 +4,7 @@ import 'package:example/models/failure.dart';
 import 'package:example/models/user.dart';
 import 'package:example/src/authentication_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiConfig {
   static const String baseUrl =
@@ -17,6 +18,10 @@ class ApiException implements Exception {
   final String message;
 
   ApiException(this.message);
+  @override
+  String toString() {
+    return 'ApiException: $message';
+  }
 }
 
 class Authentication implements AuthRepository {
@@ -34,7 +39,7 @@ class Authentication implements AuthRepository {
         }),
       );
       final responseData = jsonDecode(response.body)['data'];
-      print('response date: >>>>>>${responseData}');
+      print('response date: >>>>>>$responseData');
 
       switch (response.statusCode) {
         case 201:
@@ -50,7 +55,11 @@ class Authentication implements AuthRepository {
           return user;
 
         case 400:
-          throw Failure('Invalid input data.');
+          throw Failure(
+              'Invalid input format name, a-z 0-9 _ only or at least 8 character password');
+
+        case 403:
+          throw Failure('Email already exists!');
 
         case 405:
           throw Failure(
@@ -75,7 +84,7 @@ class Authentication implements AuthRepository {
       throw Failure('Bad response format 👎');
     } on HttpException {
       throw Failure('Please check your internet connection');
-    } catch (e) {
+    } on ApiException catch (e) {
       throw ApiException('Error signing up: ${e.toString()}');
     }
   }
@@ -128,11 +137,15 @@ class Authentication implements AuthRepository {
 
   @override
   Future logout(String email) async {
+    final pref = await SharedPreferences.getInstance();
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/logout'),
         headers: ApiConfig.headers,
       );
+      if (pref.containsKey('cookie')) {
+        await pref.clear();
+      }
 
       final responseData = json.decode(response.body);
       return responseData;

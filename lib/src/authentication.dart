@@ -65,8 +65,11 @@ class Authentication implements AuthRepository {
           return user;
 
         case 400:
-          // Handle a 400 Bad Request response (Invalid input data) using failure class.
-          throw Failure('Invalid input data.');
+          throw Failure(
+              'Invalid input format name, a-z 0-9 _ only or at least 8 character password');
+
+        case 403:
+          throw Failure('Email already exists!');
 
         case 405:
           // Handle a 405 Method Not Allowed response.
@@ -110,14 +113,17 @@ class Authentication implements AuthRepository {
   /// signIn async function which recieve [email] and [password]
   /// as a means of signing in user
   Future signIn(String email, String password) async {
+    final pref = await SharedPreferences.getInstance();
+
     try {
-      // Make a POST request to log in the user.
       final response = await http.post(Uri.parse('${ApiConfig.baseUrl}/login'),
           headers: ApiConfig.headers,
           body: jsonEncode({
             'email': email,
             'password': password,
           }));
+      var resCookie = response.headers['set-cookie'];
+      pref.setString('cookie', resCookie!);
 
       switch (response.statusCode) {
         case 200:
@@ -140,6 +146,9 @@ class Authentication implements AuthRepository {
         case 400:
           // Handle a 400 Bad Request response (Invalid input data).
           throw Failure('Invalid input data.');
+
+        case 401:
+          throw Failure('Incorrect password.');
 
         case 405:
           // Handle a 405 Method Not Allowed response.
@@ -186,11 +195,9 @@ class Authentication implements AuthRepository {
 
       // Decode the response body to access data from the logout request.
       final responseData = json.decode(response.body);
-
-      // Clear user preferences to perform a logout operation.
-      pref.clear();
-
-      // Return the response data as a result of the logout operation.
+      if (pref.containsKey('cookie')) {
+        await pref.clear();
+      }
       return responseData;
     } catch (e) {
       // Handle exceptions and provide an error message in case of failure.
@@ -199,18 +206,14 @@ class Authentication implements AuthRepository {
   }
 
   @override
-
-  /// getUser async function which get the present login user
   Future getUser() async {
-    // Get an instance of SharedPreferences to retrieve the user's cookie data.
     final pref = await SharedPreferences.getInstance();
 
     // Retrieve the user's cookie from SharedPreferences.
     final cookie = pref.getString('cookie');
 
     try {
-      // Make a POST request to retrieve user data.
-      final response = await http.post(
+      final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/@me'),
         headers: {
           ...ApiConfig.headers,
@@ -230,7 +233,6 @@ class Authentication implements AuthRepository {
               email: responseData['email'],
               credits: responseData['credits'],
               cookie: cookie);
-
           return user;
 
         case 400:

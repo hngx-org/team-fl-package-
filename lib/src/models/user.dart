@@ -13,20 +13,14 @@ class User {
 
   /// The email address of the user.
   final String email;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? credits;
+  final String? cookie;
 
   /// The date and time when the user was created (optional).
   final DateTime? createdAt;
 
-  /// The date and time when the user was last updated (optional).
-  final DateTime? updatedAt;
-
-  /// The number of credits associated with the user (optional).
-  final int? credits;
-
-  /// The user's session cookie (optional).
-  final String? cookie;
-
-  /// Create a [User] instance with the provided properties.
   User({
     required this.id,
     required this.name,
