@@ -23,7 +23,6 @@ class ApiException implements Exception {
 class Authentication implements AuthRepository {
   @override
   Future<User?> signUp(String email, String name, String password) async {
-    
     try {
       final response = await http.post(
         Uri.parse('${ApiConfig.baseUrl}/register'),
@@ -50,7 +49,11 @@ class Authentication implements AuthRepository {
           return user;
 
         case 400:
-          throw Failure('Invalid input data.');
+          throw Failure(
+              'Invalid input format name, a-z 0-9 _ only or at least 8 character password');
+
+        case 403:
+          throw Failure('Email already exists!');
 
         case 405:
           throw Failure(
@@ -82,15 +85,18 @@ class Authentication implements AuthRepository {
 
   @override
   Future signIn(String email, String password) async {
+    final pref = await SharedPreferences.getInstance();
+
     try {
-      final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/login'),
-         headers: ApiConfig.headers,
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-        }));
-     
+      final response = await http.post(Uri.parse('${ApiConfig.baseUrl}/login'),
+          headers: ApiConfig.headers,
+          body: jsonEncode({
+            'email': email,
+            'password': password,
+          }));
+      var resCookie = response.headers['set-cookie'];
+      pref.setString('cookie', resCookie!);
+
       switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
@@ -105,6 +111,9 @@ class Authentication implements AuthRepository {
 
         case 400:
           throw Failure('Invalid input data.');
+
+        case 401:
+          throw Failure('Incorrect password.');
 
         case 405:
           throw Failure(
@@ -128,18 +137,19 @@ class Authentication implements AuthRepository {
     }
   }
 
- 
   @override
   Future logout(String email) async {
     final pref = await SharedPreferences.getInstance();
-    
+
     try {
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/logout'),
         headers: ApiConfig.headers,
       );
       final responseData = json.decode(response.body);
-      pref.clear();
+      if (pref.containsKey('cookie')) {
+        await pref.clear();
+      }
       return responseData;
     } catch (e) {
       throw ApiException('Error logging out: ${e.toString()}');
@@ -147,27 +157,26 @@ class Authentication implements AuthRepository {
   }
 
   @override
-  Future getUser() async { 
+  Future getUser() async {
     final pref = await SharedPreferences.getInstance();
     final cookie = pref.getString('cookie');
     try {
-      final response = await http.post(
+      final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}/@me'),
         headers: {
           ...ApiConfig.headers,
           'cookie': cookie!,
-          },
+        },
       );
       switch (response.statusCode) {
         case 200:
           final responseData = jsonDecode(response.body)['data'];
           final user = User(
-            id: responseData['id'],
-            name: responseData['name'],
-            email: responseData['email'],
-            credits: responseData['credits'],
-            cookie: cookie
-          );
+              id: responseData['id'],
+              name: responseData['name'],
+              email: responseData['email'],
+              credits: responseData['credits'],
+              cookie: cookie);
           return user;
 
         case 400:

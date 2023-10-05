@@ -151,6 +151,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       final email = (widget.emailController).text;
                       final password = (widget.passwordController).text;
                       final name = widget.nameController.text;
+
+                      try {} catch (e) {}
                       final authRepository = Authentication();
                       final data =
                           await authRepository.signUp(email, name, password);
