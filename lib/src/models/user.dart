@@ -13,9 +13,17 @@ class User {
 
   /// The email address of the user.
   final String email;
+
+  /// The created at date which is optional.
   final DateTime? createdAt;
+
+  /// The updated at date which is optional.
   final DateTime? updatedAt;
+
+  /// The credit of the user.
   final int? credits;
+
+  /// The cookie of the user.
   final String? cookie;
 
   /// The date and time when the user was created (optional).
