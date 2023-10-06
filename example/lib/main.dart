@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:example/src/authentication.dart';
+import 'package:example/ui/home.dart';
 import 'package:example/widgets/rounded_bordered_textfield.dart';
 import 'package:example/widgets/widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,22 +16,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+    // final TextEditingController nameController = TextEditingController();
+    // final TextEditingController emailController = TextEditingController();
+    // final TextEditingController passwordController = TextEditingController();
 
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Authentication Example',
-      routes: {
-        '/': (context) => RegistrationForm(
-              emailController: emailController,
-              successRoutePage: '/home',
-              nameController: nameController,
-              passwordController: passwordController, // Use the route name here
-            ),
-        '/home': (context) => const Home(),
-      },
-      initialRoute: '/',
+      home: MyHomePage(title: 'Authentication Example'),
+      // routes: {
+      //   '/': (context) => RegistrationForm(
+      //         emailController: emailController,
+      //         successRoutePage: '/home',
+      //         nameController: nameController,
+      //         passwordController: passwordController, // Use the route name here
+      //       ),
+      //   '/home': (context) => const Home(),
+      // },
+      // initialRoute: '/',
     );
   }
 }
@@ -195,21 +197,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       final password = (widget.passwordController).text;
                       final name = widget.nameController.text;
                       final authRepository = Authentication();
-                      final data =
-                          await authRepository.signUp(email, name, password);
+                      final data = await authRepository.logout(
+                        email,
+                      );
                       if (data != null) {
                         // Registration failed, display an error message
 
                         showSnackbar(
-                            context, Colors.black, 'SignUp successful');
-                        print('sign up Email >>> ${data.email}');
-                        print('sign up id >>> ${data.id}');
-                        print('sign up created at >>> ${data.createdAt}');
-                        Navigator.of(context)
-                            .pushNamed(widget.successRoutePage);
+                            context, Colors.black, 'logout successful');
+                        // print('sign up Email >>> ${data.email}');
+                        // print('sign up id >>> ${data.id}');
+                        // print('sign up created at >>> ${data.createdAt}');
+                        // print('data:>>> $data');
+                        // Navigator.of(context)
+                        //     .pushNamed(widget.successRoutePage);
                       } else {
                         print('errror:   eeeeeee');
-                        showSnackbar(context, Colors.red, 'SignUp ERROR');
+                        showSnackbar(context, Colors.red,
+                            'SignUp ERROR: ${data.toString()}');
                       }
                     },
                     child: Text(

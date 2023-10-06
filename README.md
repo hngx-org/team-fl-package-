@@ -244,6 +244,48 @@ class _RegistrationFormState extends State<RegistrationForm> {
 }
 
 
-
-
 ```
+## API Documentation
+The HNG_Authentication package provides the following API for authentication:
+
+signUp(email, name, password): Sign up a new user.
+signIn(email, password): Sign in an existing user.
+logout(email): Log out the user associated with the provided email.
+getUser(): Retrieve information about the currently authenticated user.
+Each of these functions can be called to perform the corresponding authentication task.
+
+## Troubleshooting
+If you encounter any issues during the installation or use of this package, please check your dependencies and ensure you have imported the package correctly.
+
+## License
+This package is licensed under the MIT License. See the LICENSE file for details.
+
+## Contributing
+We welcome contributions! If you'd like to contribute to this package, please follow our contribution guidelines.
+
+## Version History
+0.0.1 - Initial release (30th Sept 2023)
+0.0.2 - Bug fixes and improvements (1st Sept 2023)
+0.0.3 - Bug fixes and improvements (2nd Sept 2023)
+0.1.0 - Bug fixes and improvements (3rd Sept 2023)
+0.1.1 - Bug fixes and improvements (3rd Sept 2023)
+0.1.2 - Bug fixes and improvements also add user model (3rd Sept 2023TE)
+0.1.3 - Bug fixes and improvements (4th Sept 2023)
+0.1.4 - Bug fixes and improvements added cookie property so you can now retrieve cookies (4th Sept 2023)
+0.1.5 - Bug fixes and improvements (5th Sept 2023)
+0.1.6 - Bug fixes and improvements added cookie property so you can now retrieve cookies (5th Sept 2023)
+
+## Testing
+The package includes test cases to ensure its functionality. You can run tests by executing the following command:
+
+
+## Additional Documentation
+For more detailed documentation and examples, please visit the official documentation here.
+
+## Support
+If you have any questions or need assistance, please contact our support team at support@example.com.
+
+Thank you for using HNG_Authentication!
+
+
+
