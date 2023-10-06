@@ -30,6 +30,8 @@ class ApiException implements Exception {
 /// handles various API response scenarios.
 ///
 class Authentication implements AuthRepository {
+
+  //signup function. This function registers a user, to allow usage of the App.
   @override
 
   /// signUp async function which recieve [email] [name] and [password]
@@ -108,6 +110,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  //signin function. This function allows a registered user to access the App
   @override
 
   /// signIn async function which recieve [email] and [password]
@@ -205,6 +208,7 @@ class Authentication implements AuthRepository {
     }
   }
 
+  //getUser Profile for the server to be displayed on the App
   @override
   Future getUser() async {
     final pref = await SharedPreferences.getInstance();

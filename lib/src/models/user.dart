@@ -26,8 +26,7 @@ class User {
   /// The cookie of the user.
   final String? cookie;
 
-  /// The date and time when the user was created (optional).
-  final DateTime? createdAt;
+
 
   User({
     required this.id,
