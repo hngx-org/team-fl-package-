@@ -34,7 +34,7 @@ class Authentication implements AuthRepository {
           'confirm_password': password,
         }),
       );
-
+// success is between 200-300
       switch (response.statusCode) {
         case 201:
           final responseData = jsonDecode(response.body)['data'];
@@ -45,6 +45,7 @@ class Authentication implements AuthRepository {
             email: responseData['email'],
             credits: responseData['credits'],
           );
+          // 
 
           return user;
 

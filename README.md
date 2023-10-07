@@ -3,10 +3,95 @@
 
 A Flutter package for adding authentication to your application. This package offer the client the ability to call the signup, signin, logout functions and also check currently logged in user. This is package can be used in any HNG task involving authentication.
 
+## Overview
+
+This is an authentication package for Flutter applications. It provides functionalities for user registration, login, and user management through an API.
+
+## Features
+
+- User registration
+- User login
+- User logout
+- Get user profile information
+
+## Installation
+
+To use this package, add it to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  hng_authentication: ^1.0.0
+```
+
+Then run flutter pub get to install the package.
+
 
 ## Usage
 
-To use this plugin, add hng_authentiction as a dependency in your pubspec.yaml file.
+Import the package
+
+
+```
+import 'package:hng_authentication/hng_authentication.dart';
+
+```
+
+
+## Initialize the Authentication
+
+```
+final authentication = Authentication();
+
+```
+
+## User Registration
+
+```try {
+  final user = await authentication.signUp(email, name, password);
+  // Handle success, e.g., store user information
+} catch (error) {
+  // Handle errors
+}
+```
+
+## User Login 
+
+```try {
+  final user = await authentication.signIn(email, password);
+  // Handle success, e.g., store user information
+} catch (error) {
+  // Handle errors
+}
+```
+## User Logout 
+
+```try {
+  await authentication.logout(email);
+  // Handle success, e.g., navigate to the login screen
+} catch (error) {
+  // Handle errors
+}
+
+```
+## Get User Profile 
+
+```try {
+  final user = await authentication.getUser();
+  // Handle success, e.g., display user information
+} catch (error) {
+  // Handle errors
+}
+
+
+```
+
+## API Configuration
+
+The package uses the following API endpoint:
+
+```static const String baseUrl = 'https://spitfire-interractions.onrender.com/api/auth';
+```
+
 ## Example
 ```dart
 import 'package:flutter/material.dart';
@@ -244,6 +329,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
 }
 
 
-
-
 ```
+
+## Exception Handling
+The package provides custom exceptions and handles various HTTP error codes.
+
+## Dependencies
+http: ^0.13.3
+shared_preferences: ^2.0.7
+
+## License
+This package is open-source and available under the MIT License. See the LICENSE file for details.
+
+
+## Contributions
+
+Contributions are welcome! Please open an issue or create a pull request to contribute to this package.
