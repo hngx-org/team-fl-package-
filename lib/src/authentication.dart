@@ -49,7 +49,7 @@ class Authentication implements AuthRepository {
           'confirm_password': password,
         }),
       );
-
+// success is between 200-300
       switch (response.statusCode) {
         case 201:
           // Handle a successful registration response.
@@ -62,6 +62,7 @@ class Authentication implements AuthRepository {
             email: responseData['email'],
             credits: responseData['credits'],
           );
+          // 
 
           //return the user object if registration after successful registration
           return user;
